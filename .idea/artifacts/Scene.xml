@@ -1,0 +1,99 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="Scene">
+    <output-path>$PROJECT_DIR$/out/artifacts/Scene</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="sample.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="icons">
+          <JavaFxApplicationIcons>
+            <option name="windowsIcon" value="$PROJECT_DIR$/src/files/folder_games_16872.ico" />
+          </JavaFxApplicationIcons>
+        </option>
+        <option name="msgOutputLevel" value="Quiet" />
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="Scene.jar">
+        <element id="module-output" name="Scene" />
+        <element id="file-copy" path="$PROJECT_DIR$/lib/pdfbox-3.0.0-alpha2.jar" />
+        <element id="library" level="project" name="Maven: org.apache.poi:poi:5.1.0" />
+        <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.15" />
+        <element id="library" level="project" name="Maven: org.apache.commons:commons-collections4:4.4" />
+        <element id="library" level="project" name="Maven: org.apache.commons:commons-math3:3.6.1" />
+        <element id="library" level="project" name="Maven: commons-io:commons-io:2.11.0" />
+        <element id="library" level="project" name="Maven: com.zaxxer:SparseBitSet:1.2" />
+        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.14.1" />
+        <element id="library" level="project" name="Maven: org.apache.cassandra:cassandra-all:0.8.1" />
+        <element id="library" level="project" name="Maven: com.google.guava:guava:r08" />
+        <element id="library" level="project" name="Maven: commons-cli:commons-cli:1.1" />
+        <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.1" />
+        <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.4" />
+        <element id="library" level="project" name="Maven: com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.1" />
+        <element id="library" level="project" name="Maven: org.antlr:antlr:3.2" />
+        <element id="library" level="project" name="Maven: org.antlr:antlr-runtime:3.2" />
+        <element id="library" level="project" name="Maven: org.antlr:stringtemplate:3.2" />
+        <element id="library" level="project" name="Maven: antlr:antlr:2.7.7" />
+        <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.6.1" />
+        <element id="library" level="project" name="Maven: org.apache.cassandra.deps:avro:1.4.0-cassandra-1" />
+        <element id="library" level="project" name="Maven: org.mortbay.jetty:jetty:6.1.22" />
+        <element id="library" level="project" name="Maven: org.mortbay.jetty:jetty-util:6.1.22" />
+        <element id="library" level="project" name="Maven: org.mortbay.jetty:servlet-api:2.5-20081211" />
+        <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.4.0" />
+        <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.4.0" />
+        <element id="library" level="project" name="Maven: jline:jline:0.9.94" />
+        <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1" />
+        <element id="library" level="project" name="Maven: com.github.stephenc.high-scale-lib:high-scale-lib:1.1.2" />
+        <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.6" />
+        <element id="library" level="project" name="Maven: org.apache.thrift:libthrift:0.6.1" />
+        <element id="library" level="project" name="Maven: junit:junit:4.4" />
+        <element id="library" level="project" name="Maven: javax.servlet:servlet-api:2.5" />
+        <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.0.1" />
+        <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.0.1" />
+        <element id="library" level="project" name="Maven: org.apache.cassandra:cassandra-thrift:0.8.1" />
+        <element id="library" level="project" name="Maven: com.github.stephenc:jamm:0.2.2" />
+        <element id="library" level="project" name="Maven: org.xerial:sqlite-jdbc:3.36.0.3" />
+        <element id="library" level="project" name="Maven: net.sf.cssbox:pdf2dom:2.0.1" />
+        <element id="library" level="project" name="Maven: org.apache.pdfbox:pdfbox:2.0.24" />
+        <element id="library" level="project" name="Maven: org.apache.pdfbox:fontbox:2.0.24" />
+        <element id="library" level="project" name="Maven: net.mabboud.fontverter:FontVerter:1.2.22" />
+        <element id="library" level="project" name="Maven: org.reflections:reflections:0.9.9" />
+        <element id="library" level="project" name="Maven: org.javassist:javassist:3.18.2-GA" />
+        <element id="library" level="project" name="Maven: com.google.code.findbugs:annotations:2.0.1" />
+        <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.4" />
+        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.11.1" />
+        <element id="library" level="project" name="Maven: com.itextpdf:itextpdf:5.5.13.2" />
+        <element id="library" level="project" name="Maven: com.itextpdf.tool:xmlworker:5.5.13.2" />
+        <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml:5.1.0" />
+        <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml-lite:5.1.0" />
+        <element id="library" level="project" name="Maven: org.apache.xmlbeans:xmlbeans:5.0.2" />
+        <element id="library" level="project" name="Maven: org.apache.commons:commons-compress:1.21" />
+        <element id="library" level="project" name="Maven: com.github.virtuald:curvesapi:1.06" />
+        <element id="library" level="project" name="Maven: org.apache.poi:poi-scratchpad:5.1.0" />
+        <element id="library" level="project" name="Maven: org.ghost4j:ghost4j:1.0.0" />
+        <element id="library" level="project" name="Maven: net.java.dev.jna:jna:3.3.0" />
+        <element id="library" level="project" name="Maven: log4j:log4j:1.2.15" />
+        <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.8.3" />
+        <element id="library" level="project" name="Maven: org.apache.xmlgraphics:xmlgraphics-commons:1.4" />
+        <element id="library" level="project" name="Maven: com.lowagie:itext:2.1.7" />
+        <element id="library" level="project" name="Maven: org.apache.pdfbox:pdfbox-tools:2.0.23" />
+        <element id="library" level="project" name="Maven: org.apache.pdfbox:pdfbox-debugger:2.0.23" />
+        <element id="library" level="project" name="Maven: e-iceblue:spire.xls.free:2.2.0" />
+        <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:18-ea+7" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:win:18-ea+7" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:win:18-ea+7" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-base:win:18-ea+7" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-base:18-ea+7" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:18-ea+7" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:win:18-ea+7" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:18-ea+7" />
+      </element>
+    </root>
+  </artifact>
+</component>
