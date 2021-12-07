@@ -8,10 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import org.apache.poi.ss.usermodel.*;
+import javafx.scene.control.TextField;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import javafx.scene.control.TextField;
+
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
@@ -64,8 +66,8 @@ public class Controller implements Initializable {
     @FXML
     private TextField torgValue;
 
-    String pathEndpoint = "C:\\Users\\go\\Desktop\\Tarkett\\";
-    String pathDownload = "C:\\Users\\go\\Downloads\\";
+    String pathEndpoint = "C:\\Users\\Artem\\Desktop\\Tarkett\\";
+    String pathDownload = "C:\\Users\\Artem\\Downloads\\";
 
     @Override
     public void initialize(URL location, ResourceBundle resources)  {
@@ -110,6 +112,8 @@ public class Controller implements Initializable {
                 "ООО МБК-Поволжье Обособленное подразделение г. Казань,  ИНН 5263103894",
                 "ООО МБК-Поволжье, ИНН 5263103894",
                 "ООО МБК-Урал, ИНН 0276105593",
+                "ООО Монарх-П обособленное подразделение в г. Астрахань, ИНН 2618801670",
+                "ООО Монарх-П обособленное подразделение в Волгограде, ИНН 2618801670",
                 "ООО Монарх Бизнес Клуб Логистик, ИНН 9706007653",
                 "ООО Монарх Бизнес Клуб-Мск, ИНН 7713767919",
                 "ООО Монарх Сибирь, ИНН 5403336669",
@@ -459,7 +463,7 @@ public class Controller implements Initializable {
             com.spire.xls.Workbook wb = new Workbook();
             wb.loadFromFile(path + destFileName);
             Worksheet sheetPdf = wb.getWorksheets().get(0);
-            sheetPdf.saveToImage("C:\\Users\\go\\Desktop\\" + i + cityValue() + ".jpeg");
+            sheetPdf.saveToImage("C:\\Users\\Artem\\Desktop\\" + i + cityValue() + ".jpeg");
 
             File xlsx = new File(path + destFileName);
             xlsx.delete();
@@ -500,11 +504,17 @@ public class Controller implements Initializable {
         String rowAddrLCCStr = null;
         String nameUnloadCompanyStr = nameUnloadCompany.getSelectionModel().getSelectedItem();
 
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(2);
         XSSFWorkbook wb = new XSSFWorkbook (new FileInputStream(fileThNumber));
         XSSFSheet sheet = wb.getSheetAt(0);
 
         switch (nameUnloadCompanyStr) {
+            case "ООО Монарх-П обособленное подразделение в г. Астрахань, ИНН 2618801670":
+                rowAddrLCCStr = "414057, Российская Федерация, Астраханская область, Астрахань, улица Рождественского, 5";
+                break;
+            case "ООО Монарх-П обособленное подразделение в Волгограде, ИНН 2618801670":
+                rowAddrLCCStr = "400119, Российская Федерация, Волгоградская область, Волгоград, ул. 25-летия Октября, 1, 80";
+                break;
             case "ООО Монарх К, ИНН 2311065300":
                 rowAddrLCCStr = "353241, Российская Федерация, Краснодарский край, станица Северская, ул. Западная, 43А";
                 break;
