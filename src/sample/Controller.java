@@ -19,8 +19,6 @@ import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
@@ -66,7 +64,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField torgValue;
 
-    String pathEndpoint = "C:\\Users\\Artem\\Desktop\\Tarkett\\";
+    String pathEndpoint = "D:\\Tarkett\\";
     String pathDownload = "C:\\Users\\Artem\\Downloads\\";
 
     @Override
@@ -92,13 +90,16 @@ public class Controller implements Initializable {
                 "ООО «ГРУЗОВОЙ АТП», ИНН/КПП 7805716671/780501001 198188, ГОРОД САНКТ-ПЕТЕРБУРГ, УЛИЦА ВОЗРОЖДЕНИЯ, ДОМ 42, ЛИТЕРА А, ЧАСТЬ ПОМ. 14-Н №3, 5",
                 "ООО «ТС-Поволжье» ИНН/КПП 6318011809/631601001 443080, г. Самара, ул. Санфировой, 95 литер 4,  этаж 5, офис 509",
                 "ООО «ТЛТ ПЛАНЕТА» ИНН/КПП 6382081948/638201001 445143,Самарская обл.Ставропольский район,п.Подстёпки,ул.Садовая 10 А",
-                "ООО АВТОРЕЙС 161 ИНН/КПП 6167132260/616701001 344064 г. Ростов-на-Дону ул. Вавилова 62В, оф. 206"
+                "ООО АВТОРЕЙС 161 ИНН/КПП 6167132260/616701001 344064 г. Ростов-на-Дону ул. Вавилова 62В, оф. 206",
+                "ИП Тимаков Виктор Владимирович ИНН 616106551749 344068, г. Ростов-на-Дону, пер. Ольховский, д. 10",
+                "ООО «Сити Транс» ИНН 7713389953 КПП 771301001 127411, г. Москва, Дмитровское шоссе, д. 157, стр. 9, оф. 9210"
         );
 
         nameUnloadCompany.getItems().addAll(
                 "АО Олимп и К, ИНН 7811138059",
                 "АО ТАРКЕТТ РУС Екатеринбургское Обособленное Подразделение, ИНН 7727115649",
                 "АО ТАРКЕТТ РУС Ростовское Обособленное Подразделение, ИНН 7727115649",
+                "АО ТАРКЕТТ РУС Новосибирское Обособленное Подразделение, ИНН 7727115649",
                 "АО ТАРКЕТТ РУС, ИНН 7727115649",
                 "АО ФМ Ложистик Восток, ИНН 5047027173",
                 "ООО «Леруа Мерлен Восток», ИНН 502906996",
@@ -107,8 +108,10 @@ public class Controller implements Initializable {
                 "ООО Бауцентр Рус,  ИНН 7702596813",
                 "ООО БК Центр, ИНН 7728773908",
                 "ООО Касторама РУС, ИНН 7703528301",
+                "ООО Компания Колорлон, ИНН 5404289490",
                 "ООО МБК,  ИНН 2634079452",
                 "ООО Монарх К, ИНН 2311065300",
+                "ООО МБК Обособленное подразделение в г. Ростов-на-Дону",
                 "ООО МБК-Поволжье Обособленное подразделение г. Казань,  ИНН 5263103894",
                 "ООО МБК-Поволжье, ИНН 5263103894",
                 "ООО МБК-Урал, ИНН 0276105593",
@@ -116,6 +119,7 @@ public class Controller implements Initializable {
                 "ООО Монарх-П обособленное подразделение в Волгограде, ИНН 2618801670",
                 "ООО Монарх Бизнес Клуб Логистик, ИНН 9706007653",
                 "ООО Монарх Бизнес Клуб-Мск, ИНН 7713767919",
+                "ООО Монарх Бизнес Клуб-Урал, ИНН 0276105593",
                 "ООО Монарх Сибирь, ИНН 5403336669",
                 "ООО Монарх-Воронеж, ИНН 3663097916",
                 "ООО Монарх-Саратов,  ИНН 6432004518",
@@ -222,6 +226,7 @@ public class Controller implements Initializable {
                 "Москва, Ходынский бульвар д 4 магазин 037 ( Авиапарк)- магазин № 37 Авиапарк",
                 "Москва, Энтузиастов шоссе, д.12, корп.2.",
                 "Москва,143082, г.Москва, Новорижское шоссе 22 км,1,5",
+                "Московский, Киевское шоссе, 23-й километр, 8с1",
                 "Московский, 108811, г. Москва, п. Московский, 34 кв-л, двлд. 1,1",
                 "Московский, Москва, поселение Московский, г. Московский, вблизи д. Говорово, 47 км МКАД. (ОБИ Боровское)-магазин №6 Боровское",
                 "Моссква, МКАД, 24-й километр, вл2",
@@ -324,7 +329,7 @@ public class Controller implements Initializable {
                 "Челябинск, Челябинская область, Челябинск, Сосновский район, Оптово-распределительный центр Грюнвальд территория, д.3",
                 "Челябинск, Челябинская область, Челябинск, улица 2-я Потребительская, д.22",
                 "Череповец, Октябрьский пр-кт, 23",
-                "Шелепаново, РЦ Литвиново: Россия, Московская область, Солнечногорский район, с.п. Пешковское, деревня Шелепаново 152/1.-магазин № 815 Химки РЦ ФМ Ложистик",
+                "Российская Федерация, 141533, Московская область, Солнечногорск, сельское поселение Пешковское, д. Шелепаново, корп./стр.152/1",
                 "Шолохово д., Дмитровское ш.,8,1 (для ТЦ Леруа Мерлен  (Шолохово))",
                 "Шушары, Московское ш., 14, Лит. А. (для ТЦ Леруа Мерлен (СПБ Московское))",
                 "Щелково, Московская область, Щелковский район, г. Щелково, Пролетарский проспект, д. 20",
@@ -336,7 +341,6 @@ public class Controller implements Initializable {
                 "Ярославль, 150518, Ярославская обл., Ярославский р-н, в районе посёлка Красный Бор, 1А, корп.1 (для ТЦ «Леруа Мерлен Ярославль Бор»)",
                 "Ярославль, ООО Леруа Мерлен Восток 150521, Ярославская обл., Ярославский р-н, п.Нагорный, ул.Дорожная, д.6 В (для ТЦ Леруа Мерлен  (Вернисаж))"
         );
-
     }
 
     public String autoTonnValue () {
@@ -364,110 +368,9 @@ public class Controller implements Initializable {
         return "src\\files\\" + cityValue() + ".xlsx";
     }
 
-    public void showRasp () throws IOException {
+    public void getPackTark () throws IOException {
         Desktop desktop = Desktop.getDesktop();
-        desktop.open(new File("src\\files\\InpRasp.XLSX"));
-    }
-
-    public void createRasp () throws IOException {
-        String InpRasp = "src\\files\\InpRasp.XLSX";
-        String sourceFileName = cityValue() + "Rasp.XLSX";
-        String path = "src\\files\\";
-
-        XSSFWorkbook workbookSum = new XSSFWorkbook(InpRasp);
-        XSSFSheet sheetStr = workbookSum.getSheetAt(0);
-        Iterator<Row> rowIteratorStrSum = sheetStr.iterator();
-        int rowSumTab = rowIteratorStrSum.next().getSheet().getLastRowNum();
-
-        for (int i = 0; i <= rowSumTab; i++) {
-
-            FileInputStream fis = new FileInputStream(InpRasp);
-
-            XSSFWorkbook workbookFis = new XSSFWorkbook(fis);
-
-            XSSFSheet sheet = workbookFis.getSheetAt(0);
-            Row row = sheet.getRow(i);
-
-            String destFileName = i + cityValue() + ".XLSX";
-            File source = new File(path+sourceFileName);
-            File dest = new File(path+destFileName);
-            Files.copy(source.toPath(), dest.toPath());
-            XSSFWorkbook workbookDest = new XSSFWorkbook(new FileInputStream(path + destFileName));
-
-            Sheet writeSheet = workbookDest.getSheetAt(0);
-            Row rowWrite = writeSheet.getRow(6);
-            Date valueDate = row.getCell(2).getDateCellValue();
-            rowWrite.getCell(3).setCellValue(valueDate);
-
-
-            switch (row.getCell(0).getCellType()) {
-                case NUMERIC:
-                    double valueNumTH = row.getCell(0).getNumericCellValue();
-                    rowWrite.getCell(24).setCellValue(valueNumTH);
-                    break;
-                case STRING:
-                    String valueNumTHstr = row.getCell(0).getStringCellValue();
-                    rowWrite.getCell(24).setCellValue(valueNumTHstr);
-                    break;
-            }
-
-            Date valueDate2 = row.getCell(2).getDateCellValue();
-            rowWrite = writeSheet.getRow(17);
-            rowWrite.getCell(22).setCellValue(valueDate2);
-
-            switch (row.getCell(0).getCellType()) {
-                case NUMERIC:
-                    double valueNumTH2 = row.getCell(0).getNumericCellValue();
-                    rowWrite = writeSheet.getRow(17);
-                    rowWrite.getCell(18).setCellValue(valueNumTH2);
-                    break;
-                case STRING:
-                    String valueNumTH2str = row.getCell(0).getStringCellValue();
-                    rowWrite = writeSheet.getRow(17);
-                    rowWrite.getCell(18).setCellValue(valueNumTH2str);
-                    break;
-            }
-
-            String valueAutoTonn = row.getCell(13).getStringCellValue();
-            rowWrite = writeSheet.getRow(23);
-            rowWrite.getCell(9).setCellValue(valueAutoTonn);
-            if (valueAutoTonn.equals("20т")) {
-                rowWrite.getCell(16).setCellValue("82");
-            } else if (valueAutoTonn.equals("10т")) {
-                rowWrite.getCell(16).setCellValue("36");
-            } else {
-                rowWrite.getCell(16).setCellValue("29");
-            }
-
-            switch (row.getCell(17).getCellType()){
-                case STRING:
-                    String valueTableStr = row.getCell(17).getStringCellValue();
-                    rowWrite = writeSheet.getRow(20);
-                    rowWrite.getCell(1).setCellValue(valueTableStr);
-                    break;
-                case NUMERIC:
-                    double valueTableNum = row.getCell(17).getNumericCellValue();
-                    rowWrite = writeSheet.getRow(20);
-                    rowWrite.getCell(1).setCellValue(valueTableNum);
-                    break;
-            }
-
-            FileOutputStream fileWrite = new FileOutputStream(path + destFileName);
-            workbookDest.write(fileWrite);
-            fileWrite.close();
-            workbookDest.close();
-            workbookSum.close();
-            workbookFis.close();
-            fis.close();
-
-            com.spire.xls.Workbook wb = new Workbook();
-            wb.loadFromFile(path + destFileName);
-            Worksheet sheetPdf = wb.getWorksheets().get(0);
-            sheetPdf.saveToImage("C:\\Users\\Artem\\Desktop\\" + i + cityValue() + ".jpeg");
-
-            File xlsx = new File(path + destFileName);
-            xlsx.delete();
-        }
+        desktop.open(new File("D:\\Tarkett"));
     }
 
     public void PrintDownload () throws IOException {
@@ -509,6 +412,18 @@ public class Controller implements Initializable {
         XSSFSheet sheet = wb.getSheetAt(0);
 
         switch (nameUnloadCompanyStr) {
+            case "ООО МБК Обособленное подразделение в г. Ростов-на-Дону":
+                rowAddrLCCStr = "346735, Российская Федерация, Ростовская область, хутор Нижнетемерницкий, ул. Гайдара, 5";
+                break;
+            case "АО ТАРКЕТТ РУС Новосибирское Обособленное Подразделение, ИНН 7727115649":
+                rowAddrLCCStr = "633100, Российская Федерация, Новосибирская область, с. Толмачёво, о.п. 3307, 16";
+                break;
+            case "ООО Компания Колорлон, ИНН 5404289490":
+                rowAddrLCCStr = "630099, Российская Федерация, Новосибирская область, Новосибирск, улица Толмачевская, 19а";
+                break;
+            case "ООО Монарх Бизнес Клуб-Урал, ИНН 0276105593":
+                rowAddrLCCStr = "450069, Российская Федерация, Республика Башкортостан, Уфа, ПРОЕЗД ВТОРОЙ (ИНДУСТРИАЛЬНЫЙ ПАРК МКР), ЗД 1";
+                break;
             case "ООО Монарх-П обособленное подразделение в г. Астрахань, ИНН 2618801670":
                 rowAddrLCCStr = "414057, Российская Федерация, Астраханская область, Астрахань, улица Рождественского, 5";
                 break;
@@ -637,7 +552,6 @@ public class Controller implements Initializable {
         Row rowUnload = sheet.getRow(47); // Номер стр. в файле назн.
         rowUnload.getCell(57).setCellValue(valueDateUnload); // Номер столбца в файл назн.
 
-
 //        Название перевозчика
         Row rowNameTransportComp = sheet.getRow(83); // Номер стр. в файле назн.
         rowNameTransportComp.getCell(1).setCellValue(nameTC); // Номер столбца в файл назн.
@@ -664,6 +578,55 @@ public class Controller implements Initializable {
 
         wb.write(new FileOutputStream(fileThNumber));
         wb.close();
+
+        // СОЗДАНИЕ РАСПИСКИ //////////
+
+        String sourceFileName = cityValue() + "Rasp.XLSX";
+        String path = "src\\files\\";
+
+        String destFileName = numberTn.getText() + cityValue() + ".XLSX";
+        File source = new File(path+sourceFileName);
+        File dest = new File(path+destFileName);
+        Files.copy(source.toPath(), dest.toPath());
+        XSSFWorkbook workbookDest = new XSSFWorkbook(new FileInputStream(path + destFileName));
+
+        Sheet writeSheet = workbookDest.getSheetAt(0);
+        Row rowWrite = writeSheet.getRow(6);
+
+        rowWrite.getCell(24).setCellValue(numberTn.getText());
+        rowWrite.getCell(3).setCellValue(dateLoad.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu")));
+
+        rowWrite = writeSheet.getRow(17);
+        rowWrite.getCell(22).setCellValue(dateLoad.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu")));
+        rowWrite.getCell(18).setCellValue(numberTn.getText());
+
+        rowWrite = writeSheet.getRow(20);
+        rowWrite.getCell(1).setCellValue(torgValue.getText());
+
+        rowWrite = writeSheet.getRow(23);
+        rowWrite.getCell(9).setCellValue(autoTonnValue());
+
+        String valueCube;
+        if (autoTonnValue().equals("3т") || autoTonnValue().equals("5т")) {
+            valueCube = "29";
+        } else if (autoTonnValue().equals("10т")) {
+            valueCube = "36";
+        } else valueCube = "82";
+
+        rowWrite.getCell(16).setCellValue(valueCube);
+
+        FileOutputStream fileWrite = new FileOutputStream(path + destFileName);
+        workbookDest.write(fileWrite);
+        fileWrite.close();
+        workbookDest.close();
+
+        com.spire.xls.Workbook wbook = new Workbook();
+        wbook.loadFromFile(path + destFileName);
+        Worksheet sheetPdf = wbook.getWorksheets().get(0);
+        sheetPdf.saveToImage("C:\\Users\\Artem\\Desktop\\" + numberTn.getText() + ".jpeg");
+
+        File xlsx = new File(path + destFileName);
+        xlsx.delete();
     }
 
     public void Driver () throws IOException {
