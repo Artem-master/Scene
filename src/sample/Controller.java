@@ -32,6 +32,8 @@ public class Controller implements Initializable {
     @FXML
     private DatePicker dateUnload;
     @FXML
+    private DatePicker dateLoad1;
+    @FXML
     private ComboBox<String> nameTransportCompany;
     @FXML
     private ComboBox <String> nameUnloadCompany;
@@ -63,6 +65,10 @@ public class Controller implements Initializable {
     private CheckBox citytrans;
     @FXML
     private TextField torgValue;
+    @FXML
+    private TextField numberAutoSTS;
+    @FXML
+    private TextField numberVehSTS;
 
     String pathEndpoint = "D:\\Tarkett\\";
     String pathDownload = "C:\\Users\\Artem\\Downloads\\";
@@ -81,7 +87,7 @@ public class Controller implements Initializable {
         });
 
         nameTransportCompany.getItems().addAll(
-                "ООО «УПРАВЛЕНИЕ НАПРАВЛЕНИЯМИ» ИНН/КПП 6320047707/632001001РФ, Самарская обл., г. Тольятти, 445056, ул. 40 лет Победы д.14, пом. 62,  офис 336 Т",
+                "ООО «СПЕЦПОДРЯД» ИНН/КПП 6321378684 /632101001 РФ, Самарская обл., г. Тольятти, 445047, ул. 40 лет Победы, 14,оф. 346 Т",
                 "ООО «ПЕГАС» ИНН/КПП 7716836046/771601001 129345 г. Москва, ул. Тайнинская, дом 26, пом.1, ком.3",
                 "ООО «ОЙЛТРАНС-АВТО» ИНН/КПП 1650367270/165001001 423808, РТ, г. Набережные Челны г, пр. им Мусы Джалиля, дом № 32, корпус 13, квартира 38",
                 "ООО «ВОЛГА АКТИВ»  ИНН/КПП 6330093533/633001001  443080, г. Самара, ул. Санфировой, 95 литер 4,  этаж 5, офис 509",
@@ -92,6 +98,9 @@ public class Controller implements Initializable {
                 "ООО «ТЛТ ПЛАНЕТА» ИНН/КПП 6382081948/638201001 445143,Самарская обл.Ставропольский район,п.Подстёпки,ул.Садовая 10 А",
                 "ООО АВТОРЕЙС 161 ИНН/КПП 6167132260/616701001 344064 г. Ростов-на-Дону ул. Вавилова 62В, оф. 206",
                 "ИП Тимаков Виктор Владимирович ИНН 616106551749 344068, г. Ростов-на-Дону, пер. Ольховский, д. 10",
+                "ИП Тимаков Артем Викторович ИНН 616113754764 344068, г. Ростов-на-Дону, пер. Ольховский, д. 10",
+                "ООО Транслогика ИНН/КПП 5001141194/500101001 143914, Московская обл., г. о. Балашиха, г. Балашиха, мкр. Никольско-Архангельский, Вишняковское ш., д. 42, помещ. 31",
+                "ООО ТК АЛЬФА ТРАНС ИНН/КПП 7720791824/771801001 107497, г.Москва, ул.Монтажная, д.8 стр.4, помещения 10,11,12,13",
                 "ООО «Сити Транс» ИНН 7713389953 КПП 771301001 127411, г. Москва, Дмитровское шоссе, д. 157, стр. 9, оф. 9210"
         );
 
@@ -106,6 +115,8 @@ public class Controller implements Initializable {
                 "ООО «ОБИ Франчайзинговый центр», ИНН 7710439772",
                 "ООО «Сделай Своими Руками Северо-Запад», ИНН 7802354624",
                 "ООО Бауцентр Рус,  ИНН 7702596813",
+                "ООО Бауцентр Рус,  ИНН 7702596813 353900, Российская Федерация, Краснодарский край,Новороссийск",
+                "ООО Бауцентр Рус, 350072, Российская Федерация, Краснодарский край, Краснодар, Ростовское шоссе, 28/7, ИНН 7702596813",
                 "ООО БК Центр, ИНН 7728773908",
                 "ООО Касторама РУС, ИНН 7703528301",
                 "ООО Компания Колорлон, ИНН 5404289490",
@@ -124,9 +135,11 @@ public class Controller implements Initializable {
                 "ООО Монарх-Воронеж, ИНН 3663097916",
                 "ООО Монарх-Саратов,  ИНН 6432004518",
                 "ООО Пол-Холл, ИНН 7203168442",
+                "ООО ПРО ВОСТОК ИНН 7725498851",
                 "ООО Роял Сервис, ИНН 7704819078",
                 "ООО Сделай Своими Руками, ИНН 5003042456",
-                "ООО СТД Петрович, ИНН 7802348846"
+                "ООО СТД Петрович, ИНН 7802348846",
+                "ООО Русроял-ЮГ, 344090, Российская Федерация, Ростовская область, Ростов-наДону, ул. Доватора, 148, ИНН 6168108936"
 
         );
 
@@ -311,6 +324,7 @@ public class Controller implements Initializable {
                 "Ставрополь, Ставропольский край, Предгорный район, территория автодороги Пятигорск-Георгиевск, д.1-й км",
                 "Ставрополь, Шпаковский р-н, с. Татарка, Южный обход, 1 (для ТЦЛеруа Мерлен (Ставрополь))",
                 "Ставропольский край, с. Татарка, улица Ленина, д.1, корп./стр.2",
+                "Ставропольский край, Шпаковский муниципальный округ, село Татарка, улица Тельмана, 2/32",
                 "Старая Купавна, Московская обл. г.Старая Купавна, Бетонный проезд, дом 1",
                 "Сургут, Ханты-Мансийский автономный округ, Сургут, улица Глухова, 2/1",
                 "Тахтамукай, аул Тахтамукай, Морская улица, 4",
@@ -402,6 +416,7 @@ public class Controller implements Initializable {
         String rowValueTorg = torgValue.getText();
         String valueDateLoad = dateLoad.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         String valueDateUnload = dateUnload.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
+        String velueDateLoad1 = dateLoad1.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         String nameTC = nameTransportCompany.getSelectionModel().getSelectedItem();
         String rowCityUnloadStr = nameCityUnload.getSelectionModel().getSelectedItem();
         String rowAddrLCCStr = null;
@@ -412,6 +427,9 @@ public class Controller implements Initializable {
         XSSFSheet sheet = wb.getSheetAt(0);
 
         switch (nameUnloadCompanyStr) {
+            case "ООО ПРО ВОСТОК ИНН 7725498851":
+                rowAddrLCCStr = "115162, Российская Федерация, Москва, Москва, ул. Шаболовка, 31, 23, Этаж 2, 2";
+                break;
             case "ООО МБК Обособленное подразделение в г. Ростов-на-Дону":
                 rowAddrLCCStr = "346735, Российская Федерация, Ростовская область, хутор Нижнетемерницкий, ул. Гайдара, 5";
                 break;
@@ -463,6 +481,9 @@ public class Controller implements Initializable {
             case "ООО Бауцентр Рус,  ИНН 7702596813":
                 rowAddrLCCStr = "236009, Российская Федерация, Калининградская область, Калининград, ул. Александра Невского, 205,";
                 break;
+            case "ООО Бауцентр Рус,  ИНН 7702596813 353900, Российская Федерация, Краснодарский край,Новороссийск":
+                rowAddrLCCStr = "село Гайдук, ул. Золотая рыбка, 23, ИНН 7702596813";
+                break;
             case "ООО Монарх-Воронеж, ИНН 3663097916":
                 rowAddrLCCStr = "394074, Российская Федерация, Воронежская область, Воронеж, ул. Новосибирская, 82А, 30, ";
                 break;
@@ -508,73 +529,68 @@ public class Controller implements Initializable {
         }
 
 //        Номер ТН
-        Row numberTH = sheet.getRow(2); // Номер стр. в файле назн.
-        numberTH.getCell(36).setCellValue(numberTn.getText()); // Номер столбца в файл назн.
+        Row numberTH = sheet.getRow(1); // Номер стр. в файле назн.
+        numberTH.getCell(28).setCellValue(numberTn.getText()); // Номер столбца в файл назн.
+        numberTH.getCell(94).setCellValue(numberTn.getText()); // Номер столбца в файл назн.
 
-        Row fio = sheet.getRow(59); // Номер стр. в файле назн.
-        fio.getCell(1).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        fio.getCell(57).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        Row fio2 = sheet.getRow(86); // Номер стр. в файле назн.
-        fio2.getCell(1).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        Row fio3 = sheet.getRow(109); // Номер стр. в файле назн.
-        fio3.getCell(57).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+        Row fio = sheet.getRow(36); // Номер стр. в файле назн.
+        fio.getCell(57).setCellValue(fioFX.getText()+ " Тел:" + telNumberFX.getText()+ " ВУ:" + driverDocNumberFX.getText()); // Номер столбца в файл назн.
 
-        Row mark = sheet.getRow(89); // Номер стр. в файле назн.
-        mark.getCell(1).setCellValue(markFX.getText()); // Номер столбца в файл назн.
+        Row fio2 = sheet.getRow(62); // Номер стр. в файле назн.
+        fio2.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
 
-        Row numberAuto = sheet.getRow(89); // Номер стр. в файле назн.
-        numberAuto.getCell(57).setCellValue(numberAutoFX.getText()); // Номер столбца в файл назн.
+        Row fio3 = sheet.getRow(80); // Номер стр. в файле назн.
+        fio3.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+// Макрка и тоннаж
+        Row mark = sheet.getRow(39); // Номер стр. в файле назн.
+        mark.getCell(1).setCellValue(markFX.getText() + " " + autoTonnValue()); // Номер столбца в файл назн.
 
-        Row numberVeh = sheet.getRow(89); // Номер стр. в файле назн.
-        numberVeh.getCell(84).setCellValue(numberVehFX.getText()); // Номер столбца в файл назн.
-
-        Row telNumber = sheet.getRow(86); // Номер стр. в файле назн.
-        telNumber.getCell(79).setCellValue("Тел: " + telNumberFX.getText()); // Номер столбца в файл назн.
-
-        Row driverDocNumber = sheet.getRow(86); // Номер стр. в файле назн.
-        driverDocNumber.getCell(64).setCellValue("ВУ: " + driverDocNumberFX.getText()); // Номер столбца в файл назн.
-
-//        Тоннаж
-        Row tonnValue = sheet.getRow(36); // Номер стр. в файле назн.
-        tonnValue.getCell(1).setCellValue(autoTonnValue()); // Номер столбца в файл назн.
+// Номер машины и прицепа
+        Row numberAuto = sheet.getRow(39); // Номер стр. в файле назн.
+        numberAuto.getCell(57).setCellValue(numberAutoFX.getText() + " " + numberVehFX.getText()); // Номер столбца в файл назн.
 
     //        Дата загрузки
-        Row row = sheet.getRow(2); // Номер стр. в файле назн.
-        row.getCell(6).setCellValue(valueDateLoad); // Номер столбца в файл назн.
-        row.getCell(62).setCellValue(valueDateLoad); // Номер столбца в файл назн.
-        Row row1 = sheet.getRow(47); // Номер стр. в файле назн.
+        Row row = sheet.getRow(52); // Номер стр. в файле назн.
+        row.getCell(57).setCellValue(valueDateLoad); // Номер столбца в файл назн.
+        Row row1 = sheet.getRow(54); // Номер стр. в файле назн.
         row1.getCell(1).setCellValue(valueDateLoad); // Номер столбца в файл назн.
-        Row row2 = sheet.getRow(49); // Номер стр. в файле назн.
-        row2.getCell(1).setCellValue(valueDateLoad); // Номер столбца в файл назн.
-        row2.getCell(29).setCellValue(valueDateLoad); // Номер столбца в файл назн.
+        row1.getCell(57).setCellValue(valueDateLoad); // Номер столбца в файл назн.
+        Row row2 = sheet.getRow(1); // Номер стр. в файле назн.
+        row2.getCell(6).setCellValue(valueDateLoad); // Номер столбца в файл назн.
+
+//        Номера СТС
+        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
+        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberAutoSTS.getText() + " п/п СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
+
+//        Дата ПЭ
+        Row datePor = sheet.getRow(1); // Номер стр. в файле назн.
+        datePor.getCell(72).setCellValue(velueDateLoad1); // Номер столбца в файл назн.
 
 //        Дата разгрузки
-        Row rowUnload = sheet.getRow(47); // Номер стр. в файле назн.
+        Row rowUnload = sheet.getRow(72); // Номер стр. в файле назн.
         rowUnload.getCell(57).setCellValue(valueDateUnload); // Номер столбца в файл назн.
+        Row rowUnload1 = sheet.getRow(74); // Номер стр. в файле назн.
+        rowUnload1.getCell(1).setCellValue(valueDateUnload); // Номер столбца в файл назн.
+        rowUnload1.getCell(57).setCellValue(valueDateUnload); // Номер столбца в файл назн.
 
 //        Название перевозчика
-        Row rowNameTransportComp = sheet.getRow(83); // Номер стр. в файле назн.
+        Row rowNameTransportComp = sheet.getRow(36); // Номер стр. в файле назн.
         rowNameTransportComp.getCell(1).setCellValue(nameTC); // Номер столбца в файл назн.
 
 //        Название получателя
-        Row rowNameLoader = sheet.getRow(5); // Номер стр. в файле назн.
-        rowNameLoader.getCell(57).setCellValue(nameUnloadCompanyStr); // Номер столбца в файл назн.
-        Row rowNameLoader1 = sheet.getRow(43); // Номер стр. в файле назн.
-        rowNameLoader1.getCell(57).setCellValue(nameUnloadCompanyStr); // Номер столбца в файл назн.
-
-//        Юридический адрес получателя
-        Row rowAddrLCC = sheet.getRow(6); // Номер стр. в файле назн.
-        rowAddrLCC.getCell(57).setCellValue(rowAddrLCCStr); // Номер столбца в файл назн.
+        Row rowNameLoader = sheet.getRow(12); // Номер стр. в файле назн.
+        rowNameLoader.getCell(1).setCellValue(nameUnloadCompanyStr + " " + rowAddrLCCStr); // Номер столбца в файл назн.
 
 //        Адрес выгрузки
-        Row rowCityUnload = sheet.getRow(44); // Номер стр. в файле назн.
-        rowCityUnload.getCell(57).setCellValue(rowCityUnloadStr); // Номер столбца в файл назн.
+        Row rowCityUnload = sheet.getRow(14); // Номер стр. в файле назн.
+        rowCityUnload.getCell(1).setCellValue(rowCityUnloadStr); // Номер столбца в файл назн.
+        Row rowCityUnload1 = sheet.getRow(72); // Номер стр. в файле назн.
+        rowCityUnload1.getCell(0).setCellValue(rowCityUnloadStr); // Номер столбца в файл назн.
 
 //        Значение Торг
-        Row valueTorg = sheet.getRow(17); // Номер стр. в файле назн.
+        Row valueTorg = sheet.getRow(28); // Номер стр. в файле назн.
         valueTorg.getCell(1).setCellValue(rowValueTorg); // Номер столбца в файл назн.
-        Row valueTorg1 = sheet.getRow(33); // Номер стр. в файле назн.
-        valueTorg1.getCell(1).setCellValue(rowValueTorg); // Номер столбца в файл назн.
+
 
         wb.write(new FileOutputStream(fileThNumber));
         wb.close();
@@ -634,28 +650,27 @@ public class Controller implements Initializable {
         XSSFWorkbook wb  = new XSSFWorkbook (new FileInputStream(fileThNumber));
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        Row fio = sheet.getRow(59); // Номер стр. в файле назн.
-        fio.getCell(1).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        fio.getCell(57).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        Row fio2 = sheet.getRow(86); // Номер стр. в файле назн.
-        fio2.getCell(1).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        Row fio3 = sheet.getRow(109); // Номер стр. в файле назн.
-        fio3.getCell(57).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+        //        Номера СТС
+        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
+        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberAutoSTS.getText() + " п/п СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
 
-        Row mark = sheet.getRow(89); // Номер стр. в файле назн.
-        mark.getCell(1).setCellValue(markFX.getText()); // Номер столбца в файл назн.
+        // Макрка и тоннаж
+        Row mark = sheet.getRow(39); // Номер стр. в файле назн.
+        mark.getCell(1).setCellValue(markFX.getText() + " " + autoTonnValue()); // Номер столбца в файл назн.
 
-        Row numberAuto = sheet.getRow(89); // Номер стр. в файле назн.
-        numberAuto.getCell(57).setCellValue(numberAutoFX.getText()); // Номер столбца в файл назн.
+// Номер машины и прицепа
+        Row numberAuto = sheet.getRow(39); // Номер стр. в файле назн.
+        numberAuto.getCell(57).setCellValue(numberAutoFX.getText() + " " + numberVehFX.getText()); // Номер столбца в файл назн.
 
-        Row numberVeh = sheet.getRow(89); // Номер стр. в файле назн.
-        numberVeh.getCell(84).setCellValue(numberVehFX.getText()); // Номер столбца в файл назн.
+        ///ФИО Водителя
+        Row fio = sheet.getRow(36); // Номер стр. в файле назн.
+        fio.getCell(57).setCellValue(fioFX.getText()+ " Тел:" + telNumberFX.getText()+ " ВУ:" + driverDocNumberFX.getText()); // Номер столбца в файл назн.
 
-        Row telNumber = sheet.getRow(86); // Номер стр. в файле назн.
-        telNumber.getCell(79).setCellValue("Тел: " + telNumberFX.getText()); // Номер столбца в файл назн.
+        Row fio2 = sheet.getRow(62); // Номер стр. в файле назн.
+        fio2.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
 
-        Row driverDocNumber = sheet.getRow(86); // Номер стр. в файле назн.
-        driverDocNumber.getCell(64).setCellValue("ВУ: " + driverDocNumberFX.getText()); // Номер столбца в файл назн.
+        Row fio3 = sheet.getRow(80); // Номер стр. в файле назн.
+        fio3.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
 
         wb.write(new FileOutputStream(fileThNumber));
         wb.close();
