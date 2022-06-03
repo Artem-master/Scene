@@ -76,7 +76,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField torgValue;
     @FXML
-    private TextField numberAutoSTS;
+    private TextField passport;
     @FXML
     private TextField numberVehSTS;
 
@@ -484,7 +484,7 @@ public class Controller implements Initializable {
 
 //        Номера СТС
         Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
-        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberAutoSTS.getText() + " п/п СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
+        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
 
 //        Дата ПЭ
         Row datePor = sheet.getRow(1); // Номер стр. в файле назн.
@@ -576,7 +576,7 @@ public class Controller implements Initializable {
 
         //        Номера СТС
         Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
-        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberAutoSTS.getText() + " п/п СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
+        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
 
         // Макрка и тоннаж
         Row mark = sheet.getRow(39); // Номер стр. в файле назн.
@@ -616,7 +616,7 @@ public class Controller implements Initializable {
 
     }
 
-    public void smssend () throws MessagingException, UnsupportedEncodingException {
+    public void smssend () throws MessagingException, IOException {
 
         //Объект properties хранит параметры соединения.
         //Для каждого почтового сервера они разные.
@@ -652,12 +652,6 @@ public class Controller implements Initializable {
         message.setRecipient(Message.RecipientType.TO, new InternetAddress("ad030490@gmail.com"));
         //Тема письма
         message.setSubject("Данные на " + numberTn.getText());
-        //Текст письма
-//        message.setText("ФИО" + fioFX.getText() + "\n" +
-//                " Тел:" + telNumberFX.getText() + "\n" +
-//                " ВУ:" + driverDocNumberFX.getText() + "\n" +
-//                "Машина " + markFX.getText() + " " + numberAutoFX + " " + numberVehFX.getText());
-        //Поехали!!!
 
         File file = new File(pathEndpoint+numberTn.getText()+".xlsx");
 //Собираем содержимое письма из кусочков
@@ -666,11 +660,10 @@ public class Controller implements Initializable {
         MimeBodyPart part1 = new MimeBodyPart();
         part1.addHeader("Content-Type", "text/plain; charset=UTF-8");
         part1.setDataHandler(new DataHandler("ФИО: " + fioFX.getText() + "\n" +
-                " Тел: " + telNumberFX.getText() + "\n" +
-                " ВУ: " + driverDocNumberFX.getText() + "\n" +
-                "Марка: " + markFX.getText() + "\n" +
-                "Номер: " + numberAutoFX.getText() + "\n" +
-                "Прицеп: " + numberVehFX.getText(), "text/plain; charset=\"utf-8\""));
+                "Тел: " + telNumberFX.getText() + "\n" +
+                "ВУ: " + driverDocNumberFX.getText() + "\n" +
+                "Паспорт: " + passport.getText() + "\n" +
+                "Машина: " + markFX.getText() + numberAutoFX.getText() + numberVehFX.getText(), "text/plain; charset=\"utf-8\""));
 
         multipart.addBodyPart(part1);
 
@@ -679,6 +672,7 @@ public class Controller implements Initializable {
         part2.setFileName(MimeUtility.encodeWord(file.getName()));
         part2.setDataHandler(new DataHandler(new FileDataSource(file)));
         multipart.addBodyPart(part2);
+
 //Добавляем оба кусочка в сообщение
         message.setContent(multipart);
 

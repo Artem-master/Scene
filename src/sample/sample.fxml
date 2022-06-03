@@ -243,7 +243,7 @@
             <Font size="9.0" />
          </font>
       </TextField>
-      <TextField fx:id="numberAutoSTS" promptText="54XO545607" GridPane.columnIndex="2" GridPane.rowIndex="26">
+      <TextField fx:id="passport" GridPane.columnIndex="2" GridPane.rowIndex="26">
          <font>
             <Font size="9.0" />
          </font>
