@@ -51,6 +51,13 @@
     </repositories>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.apache.ant/ant-launcher -->
         <dependency>
             <groupId>org.apache.ant</groupId>

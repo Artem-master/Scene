@@ -248,6 +248,11 @@
             <Font size="9.0" />
          </font>
       </TextField>
+      <Button fx:id="smssend" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#smssend" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="смс" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="10">
+         <font>
+            <Font name="Arial Narrow Bold" size="10.0" />
+         </font>
+      </Button>
    </children>
    <cursor>
       <Cursor fx:constant="OPEN_HAND" />

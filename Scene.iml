@@ -42,14 +42,16 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: com.sun.mail:jakarta.mail:2.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.activation:jakarta.activation:2.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.ant:ant-launcher:1.7.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.poi:poi:5.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi:5.2.2" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.15" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-math3:3.6.1" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.11.0" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:SparseBitSet:1.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.14.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.17.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.cassandra:cassandra-all:0.8.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:r08" level="project" />
     <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.1" level="project" />
@@ -80,14 +82,14 @@
     <orderEntry type="library" name="Maven: com.github.stephenc:jamm:0.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.11.1" level="project" />
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.36.0.3" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:18-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:18-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:18-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:18-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:18-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:18-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:18-ea+7" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:18-ea+7" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:19-ea+7" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:19-ea+7" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:19-ea+7" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:19-ea+7" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:19-ea+7" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:19-ea+7" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:19-ea+7" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:19-ea+7" level="project" />
     <orderEntry type="library" name="Maven: org.ghost4j:ghost4j:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:3.3.0" level="project" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.15" level="project" />
@@ -105,15 +107,15 @@
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.18.2-GA" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:annotations:2.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.4" level="project" />
-    <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.5.13.2" level="project" />
-    <orderEntry type="library" name="Maven: com.itextpdf.tool:xmlworker:5.5.13.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:5.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-lite:5.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:5.0.2" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.5.13.3" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf.tool:xmlworker:5.5.13.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:5.2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-lite:5.2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:5.0.3" level="project" />
     <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.4.01" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-compress:1.21" level="project" />
-    <orderEntry type="library" name="Maven: com.github.virtuald:curvesapi:1.06" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.poi:poi-scratchpad:5.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.virtuald:curvesapi:1.07" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi-scratchpad:5.2.2" level="project" />
     <orderEntry type="library" name="Maven: e-iceblue:spire.xls.free:2.2.0" level="project" />
   </component>
 </module>

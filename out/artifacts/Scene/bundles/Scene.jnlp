@@ -10,7 +10,7 @@
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="FontVerter-1.2.22.jar" size="327233" download="eager" />
     <jar href="ST4-4.0.8.jar" size="239543" download="eager" />
-    <jar href="Scene.jar" size="707862" download="eager" />
+    <jar href="Scene.jar" size="709227" download="eager" />
     <jar href="SparseBitSet-1.2.jar" size="24510" download="eager" />
     <jar href="airline-0.6.jar" size="86653" download="eager" />
     <jar href="annotations-2.0.1.jar" size="74557" download="eager" />
