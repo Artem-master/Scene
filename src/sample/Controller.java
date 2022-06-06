@@ -34,7 +34,7 @@ public class Controller implements Initializable {
     @FXML
     private Button clearTextField;
     @FXML
-    private Button smssend;
+    private Button sendRnD;
     @FXML
     private TextField numberTn;
     @FXML
@@ -72,15 +72,11 @@ public class Controller implements Initializable {
     @FXML
     private CheckBox checkTen;
     @FXML
-    private CheckBox citytrans;
-    @FXML
     private TextField torgValue;
     @FXML
     private TextField passport;
-    @FXML
-    private TextField numberVehSTS;
 
-    String pathEndpoint = "D:\\Tarkett\\";
+    String pathEndpoint = "src\\jobFiles\\";
     String pathDownload = "C:\\Users\\Artem\\Downloads\\";
 
     @Override
@@ -94,6 +90,7 @@ public class Controller implements Initializable {
             fioFX.clear();
             numberTn.clear();
             torgValue.clear();
+            passport.clear();
         });
 
         nameTransportCompany.getItems().addAll(
@@ -402,18 +399,6 @@ public class Controller implements Initializable {
         return null;
     }
 
-    public String addrLoadComp () {
-        if (citytrans.isSelected()) {
-            return "src\\files\\" + cityValue() + citytrans.getText() + ".xlsx";
-        }
-        return "src\\files\\" + cityValue() + ".xlsx";
-    }
-
-    public void getPackTark () throws IOException {
-        Desktop desktop = Desktop.getDesktop();
-        desktop.open(new File("D:\\Tarkett"));
-    }
-
     public void PrintDownload () throws IOException {
         File file = new File(pathDownload);
         String [] arr = file.list();
@@ -434,9 +419,9 @@ public class Controller implements Initializable {
         }
     }
 
-    public void createTH () throws IOException, InterruptedException {
+    public void createTH () throws IOException, InterruptedException, MessagingException {
 
-        File parentTH = new File(addrLoadComp());
+        File parentTH = new File("src\\files\\" + cityValue() + ".xlsx");
         File fileThNumber = new File(pathEndpoint+numberTn.getText()+".xlsx");
         Files.copy(parentTH.toPath(), fileThNumber.toPath());
 
@@ -483,8 +468,8 @@ public class Controller implements Initializable {
         row2.getCell(6).setCellValue(valueDateLoad); // Номер столбца в файл назн.
 
 //        Номера СТС
-        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
-        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
+//        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
+//        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
 
 //        Дата ПЭ
         Row datePor = sheet.getRow(1); // Номер стр. в файле назн.
@@ -563,67 +548,12 @@ public class Controller implements Initializable {
         com.spire.xls.Workbook wbook = new Workbook();
         wbook.loadFromFile(path + destFileName);
         Worksheet sheetPdf = wbook.getWorksheets().get(0);
-        sheetPdf.saveToImage("C:\\Users\\Artem\\Desktop\\" + numberTn.getText() + ".jpeg");
+        sheetPdf.saveToImage("src\\jobFiles\\" + numberTn.getText() + ".jpeg");
 
         File xlsx = new File(path + destFileName);
         xlsx.delete();
-    }
-
-    public void Driver () throws IOException {
-        File fileThNumber = new File(pathEndpoint+numberTn.getText()+".xlsx");
-        XSSFWorkbook wb  = new XSSFWorkbook (new FileInputStream(fileThNumber));
-        XSSFSheet sheet = wb.getSheetAt(0);
-
-        //        Номера СТС
-        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
-        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
-
-        // Макрка и тоннаж
-        Row mark = sheet.getRow(39); // Номер стр. в файле назн.
-        mark.getCell(1).setCellValue(markFX.getText() + " " + autoTonnValue()); // Номер столбца в файл назн.
-
-// Номер машины и прицепа
-        Row numberAuto = sheet.getRow(39); // Номер стр. в файле назн.
-        numberAuto.getCell(57).setCellValue(numberAutoFX.getText() + " " + numberVehFX.getText()); // Номер столбца в файл назн.
-
-        ///ФИО Водителя
-        Row fio = sheet.getRow(36); // Номер стр. в файле назн.
-        fio.getCell(57).setCellValue(fioFX.getText()+ " Тел:" + telNumberFX.getText()+ " ВУ:" + driverDocNumberFX.getText()); // Номер столбца в файл назн.
-
-        Row fio2 = sheet.getRow(62); // Номер стр. в файле назн.
-        fio2.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-
-        Row fio3 = sheet.getRow(80); // Номер стр. в файле назн.
-        fio3.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-
-        wb.write(new FileOutputStream(fileThNumber));
-        wb.close();
-    }
-
-    public void addTorg () throws IOException {
-        File fileThNumber = new File(pathEndpoint+numberTn.getText()+".xlsx");
-        XSSFWorkbook wb = new XSSFWorkbook (new FileInputStream(fileThNumber));
-        XSSFSheet sheet = wb.getSheetAt(0);
-        String rowValueTorg = torgValue.getText();
-
-        //        Значение Торг
-        Row valueTorg = sheet.getRow(17); // Номер стр. в файле назн.
-        valueTorg.getCell(1).setCellValue(rowValueTorg); // Номер столбца в файл назн.
-        Row valueTorg1 = sheet.getRow(33); // Номер стр. в файле назн.
-        valueTorg1.getCell(1).setCellValue(rowValueTorg); // Номер столбца в файл назн.
-        wb.write(new FileOutputStream(fileThNumber));
-        wb.close();
-
-    }
-
-    public void smssend () throws MessagingException, IOException {
 
         //Объект properties хранит параметры соединения.
-        //Для каждого почтового сервера они разные.
-        //Если не знаете нужные - обратитесь к администратору почтового сервера.
-        //Ну или гуглите;=)
-        //Конкретно для Yandex параметры соединения можно подсмотреть тут:
-        //https://yandex.ru/support/mail/mail-clients.html (раздел "Исходящая почта")
         Properties properties = new Properties();
         //Хост или IP-адрес почтового сервера
         properties.put("mail.smtp.host", "smtp.yandex.ru");
@@ -649,31 +579,196 @@ public class Controller implements Initializable {
         //От кого
         message.setFrom(new InternetAddress("citytransmsc@yandex.ru"));
         //Кому
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress("ad030490@gmail.com"));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress("rutransport.doc@tarkett.com"));
+        //Тема письма
+        message.setSubject(numberTn.getText());
+        // Загрузка файла в письмо
+        File file = new File("src\\jobFiles\\" + numberTn.getText() + ".jpeg");
+        message.setFileName(file.getName());
+        message.setDataHandler(new DataHandler(new FileDataSource(file)));
+        Transport.send(message);
+
+        //Удаление файла
+        File fileDelete = new File("src\\jobFiles\\" + numberTn.getText() + ".jpeg");
+        fileDelete.delete();
+
+    }
+
+    public void openTN () throws IOException {
+        Desktop desktop = Desktop.getDesktop();
+        desktop.open(new File(pathEndpoint+numberTn.getText()+".xlsx"));
+    }
+
+    public void sendMsk () throws IOException, MessagingException {
+        File fileThNumber = new File(pathEndpoint+numberTn.getText()+".xlsx");
+        XSSFWorkbook wb  = new XSSFWorkbook (new FileInputStream(fileThNumber));
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        //        Номера СТС
+//        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
+//        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
+
+        // Макрка и тоннаж
+        Row mark = sheet.getRow(39); // Номер стр. в файле назн.
+        mark.getCell(1).setCellValue(markFX.getText() + " " + autoTonnValue()); // Номер столбца в файл назн.
+
+// Номер машины и прицепа
+        Row numberAuto = sheet.getRow(39); // Номер стр. в файле назн.
+        numberAuto.getCell(57).setCellValue(numberAutoFX.getText() + " " + numberVehFX.getText()); // Номер столбца в файл назн.
+
+        ///ФИО Водителя
+        Row fio = sheet.getRow(36); // Номер стр. в файле назн.
+        fio.getCell(57).setCellValue(fioFX.getText()+ " Тел:" + telNumberFX.getText()+ " ВУ:" + driverDocNumberFX.getText()); // Номер столбца в файл назн.
+
+        Row fio2 = sheet.getRow(62); // Номер стр. в файле назн.
+        fio2.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+
+        Row fio3 = sheet.getRow(80); // Номер стр. в файле назн.
+        fio3.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+
+        wb.write(new FileOutputStream(fileThNumber));
+        wb.close();
+
+        //Объект properties хранит параметры соединения.
+        Properties properties = new Properties();
+        //Хост или IP-адрес почтового сервера
+        properties.put("mail.smtp.host", "smtp.yandex.ru");
+        //Требуется ли аутентификация для отправки сообщения
+        properties.put("mail.smtp.auth", "true");
+        //Порт для установки соединения
+        properties.put("mail.smtp.socketFactory.port", "465");
+        //Фабрика сокетов, так как при отправке сообщения Yandex требует SSL-соединения
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        //Создаем соединение для отправки почтового сообщения
+        Session session = Session.getDefaultInstance(properties,
+                //Аутентификатор - объект, который передает логин и пароль
+                new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("citytransmsc@yandex.ru", "xwsqsbocshzmtgdc");
+                    }
+                });
+
+        //Создаем новое почтовое сообщение
+        Message message = new MimeMessage(session);
+        //От кого
+        message.setFrom(new InternetAddress("citytransmsc@yandex.ru"));
+        //Кому
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress("Igor.Borisenko@tarkett.com"));
         //Тема письма
         message.setSubject("Данные на " + numberTn.getText());
 
         File file = new File(pathEndpoint+numberTn.getText()+".xlsx");
 //Собираем содержимое письма из кусочков
         MimeMultipart multipart = new MimeMultipart();
-//Первый кусочек - текст письма
+
+//Текст письма
         MimeBodyPart part1 = new MimeBodyPart();
         part1.addHeader("Content-Type", "text/plain; charset=UTF-8");
         part1.setDataHandler(new DataHandler("ФИО: " + fioFX.getText() + "\n" +
                 "Тел: " + telNumberFX.getText() + "\n" +
                 "ВУ: " + driverDocNumberFX.getText() + "\n" +
                 "Паспорт: " + passport.getText() + "\n" +
-                "Машина: " + markFX.getText() + numberAutoFX.getText() + numberVehFX.getText(), "text/plain; charset=\"utf-8\""));
+                "Машина: " + markFX.getText() + " " + numberAutoFX.getText() + " " + numberVehFX.getText(), "text/plain; charset=\"utf-8\""));
 
         multipart.addBodyPart(part1);
 
-//Второй кусочек - файл
+//Вставить файл
         MimeBodyPart part2 = new MimeBodyPart();
         part2.setFileName(MimeUtility.encodeWord(file.getName()));
         part2.setDataHandler(new DataHandler(new FileDataSource(file)));
         multipart.addBodyPart(part2);
 
-//Добавляем оба кусочка в сообщение
+//Сборка сообщения
+        message.setContent(multipart);
+
+        Transport.send(message);
+    }
+
+    public void sendRnD () throws MessagingException, IOException {
+        File fileThNumber = new File(pathEndpoint + numberTn.getText() + ".xlsx");
+        XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(fileThNumber));
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        //        Номера СТС
+//        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
+//        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
+
+        // Макрка и тоннаж
+        Row mark = sheet.getRow(39); // Номер стр. в файле назн.
+        mark.getCell(1).setCellValue(markFX.getText() + " " + autoTonnValue()); // Номер столбца в файл назн.
+
+// Номер машины и прицепа
+        Row numberAuto = sheet.getRow(39); // Номер стр. в файле назн.
+        numberAuto.getCell(57).setCellValue(numberAutoFX.getText() + " " + numberVehFX.getText()); // Номер столбца в файл назн.
+
+        ///ФИО Водителя
+        Row fio = sheet.getRow(36); // Номер стр. в файле назн.
+        fio.getCell(57).setCellValue(fioFX.getText() + " Тел:" + telNumberFX.getText() + " ВУ:" + driverDocNumberFX.getText()); // Номер столбца в файл назн.
+
+        Row fio2 = sheet.getRow(62); // Номер стр. в файле назн.
+        fio2.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+
+        Row fio3 = sheet.getRow(80); // Номер стр. в файле назн.
+        fio3.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+
+        wb.write(new FileOutputStream(fileThNumber));
+        wb.close();
+
+        //Объект properties хранит параметры соединения.
+        Properties properties = new Properties();
+        //Хост или IP-адрес почтового сервера
+        properties.put("mail.smtp.host", "smtp.yandex.ru");
+        //Требуется ли аутентификация для отправки сообщения
+        properties.put("mail.smtp.auth", "true");
+        //Порт для установки соединения
+        properties.put("mail.smtp.socketFactory.port", "465");
+        //Фабрика сокетов, так как при отправке сообщения Yandex требует SSL-соединения
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        //Создаем соединение для отправки почтового сообщения
+        Session session = Session.getDefaultInstance(properties,
+                //Аутентификатор - объект, который передает логин и пароль
+                new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("citytransmsc@yandex.ru", "xwsqsbocshzmtgdc");
+                    }
+                });
+
+        //Создаем новое почтовое сообщение
+        Message message = new MimeMessage(session);
+        //От кого
+        message.setFrom(new InternetAddress("citytransmsc@yandex.ru"));
+        //Кому
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress("Artur.Kurbanov@tarkett.com"));
+        message.setRecipient(Message.RecipientType.CC, new InternetAddress("Natalia.Chetverkina@tarkett.com"));
+        //Тема письма
+        message.setSubject("Данные на " + numberTn.getText());
+
+        File file = new File(pathEndpoint + numberTn.getText() + ".xlsx");
+//Собираем содержимое письма из кусочков
+        MimeMultipart multipart = new MimeMultipart();
+
+//Текст письма
+        MimeBodyPart part1 = new MimeBodyPart();
+        part1.addHeader("Content-Type", "text/plain; charset=UTF-8");
+        part1.setDataHandler(new DataHandler("ФИО: " + fioFX.getText() + "\n" +
+                "Тел: " + telNumberFX.getText() + "\n" +
+                "ВУ: " + driverDocNumberFX.getText() + "\n" +
+                "Паспорт: " + passport.getText() + "\n" +
+                "Машина: " + markFX.getText() + " " + numberAutoFX.getText() + " " + numberVehFX.getText(), "text/plain; charset=\"utf-8\""));
+
+        multipart.addBodyPart(part1);
+
+//Вставить файл
+        MimeBodyPart part2 = new MimeBodyPart();
+        part2.setFileName(MimeUtility.encodeWord(file.getName()));
+        part2.setDataHandler(new DataHandler(new FileDataSource(file)));
+        multipart.addBodyPart(part2);
+
+//Сборка сообщения
         message.setContent(multipart);
 
         Transport.send(message);

@@ -30,7 +30,6 @@
       <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
       <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
       <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
-      <RowConstraints maxHeight="41.0" minHeight="14.0" prefHeight="14.0" />
       <RowConstraints maxHeight="41.0" minHeight="0.0" prefHeight="0.0" />
       <RowConstraints maxHeight="41.0" minHeight="0.0" prefHeight="0.0" />
       <RowConstraints maxHeight="41.0" minHeight="0.0" prefHeight="0.0" />
@@ -67,188 +66,168 @@
             <Font name="Arial Narrow Bold" size="10.0" />
          </font>
       </Button>
-      <Button fx:id="DeleteDownloadFile" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#DeleteDownloadFile" prefHeight="14.0" prefWidth="90.0" style="-fx-background-color: #525252;" text="Очистить" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3" GridPane.rowIndex="6">
+      <Button fx:id="DeleteDownloadFile" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#DeleteDownloadFile" prefHeight="14.0" prefWidth="90.0" style="-fx-background-color: #525252;" text="Удалить ПЭ" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3" GridPane.rowIndex="6">
          <font>
             <Font name="Arial Narrow Bold" size="10.0" />
          </font>
       </Button>
-      <Button fx:id="createTH" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#createTH" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="Создать ТН" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="20">
+      <Button fx:id="createTH" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#createTH" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="Создать ТН" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="19">
          <font>
             <Font name="Arial Narrow Bold" size="10.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" blendMode="ADD" prefHeight="17.0" prefWidth="90.0" text="Номер ТН" textAlignment="RIGHT" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="16">
+      <Label alignment="CENTER" blendMode="ADD" prefHeight="17.0" prefWidth="90.0" text="Номер ТН" textAlignment="RIGHT" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="15">
          <font>
             <Font size="9.0" />
          </font>
       </Label>
-      <TextField fx:id="numberTn" GridPane.columnIndex="2" GridPane.rowIndex="17">
+      <TextField fx:id="numberTn" GridPane.columnIndex="2" GridPane.rowIndex="16">
          <font>
             <Font size="10.0" />
          </font>
       </TextField>
-      <DatePicker fx:id="dateLoad" GridPane.columnIndex="3" GridPane.rowIndex="17" />
-      <Label alignment="CENTER" blendMode="ADD" prefHeight="13.0" prefWidth="150.0" text="Дата погрузки" textAlignment="RIGHT" textFill="#f8f8f8" GridPane.columnIndex="3" GridPane.rowIndex="16">
+      <DatePicker fx:id="dateLoad" GridPane.columnIndex="3" GridPane.rowIndex="16" />
+      <Label alignment="CENTER" blendMode="ADD" prefHeight="13.0" prefWidth="150.0" text="Дата погрузки" textAlignment="RIGHT" textFill="#f8f8f8" GridPane.columnIndex="3" GridPane.rowIndex="15">
          <font>
             <Font size="9.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" blendMode="ADD" prefHeight="13.0" prefWidth="88.0" text="Дата выгрузки" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="16">
+      <Label alignment="CENTER" blendMode="ADD" prefHeight="13.0" prefWidth="88.0" text="Дата выгрузки" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="15">
          <font>
             <Font size="9.0" />
          </font>
       </Label>
-      <DatePicker fx:id="dateUnload" GridPane.columnIndex="4" GridPane.rowIndex="17" />
-      <ComboBox fx:id="nameTransportCompany" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="19" />
-      <Label alignment="CENTER" blendMode="ADD" prefWidth="85.0" text="Перевозчик" textAlignment="RIGHT" textFill="#f2efef" GridPane.columnIndex="2" GridPane.rowIndex="18">
+      <DatePicker fx:id="dateUnload" GridPane.columnIndex="4" GridPane.rowIndex="16" />
+      <ComboBox fx:id="nameTransportCompany" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="18" />
+      <Label alignment="CENTER" blendMode="ADD" prefWidth="85.0" text="Перевозчик" textAlignment="RIGHT" textFill="#f2efef" GridPane.columnIndex="2" GridPane.rowIndex="17">
          <font>
             <Font size="9.0" />
          </font>
       </Label>
-      <ComboBox fx:id="nameUnloadCompany" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="19" />
-      <Label alignment="CENTER" blendMode="ADD" prefWidth="90.0" text="Грузополучатель" textAlignment="RIGHT" textFill="#fcf9f9" GridPane.columnIndex="3" GridPane.rowIndex="18">
+      <ComboBox fx:id="nameUnloadCompany" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="18" />
+      <Label alignment="CENTER" blendMode="ADD" prefWidth="90.0" text="Грузополучатель" textAlignment="RIGHT" textFill="#fcf9f9" GridPane.columnIndex="3" GridPane.rowIndex="17">
          <font>
             <Font size="9.0" />
          </font>
       </Label>
-      <ComboBox fx:id="nameCityUnload" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="19" />
-      <Label alignment="CENTER" blendMode="ADD" prefWidth="90.0" text="Адрес выгрузки" textAlignment="RIGHT" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="18">
+      <ComboBox fx:id="nameCityUnload" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="18" />
+      <Label alignment="CENTER" blendMode="ADD" prefWidth="90.0" text="Адрес выгрузки" textAlignment="RIGHT" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="17">
          <font>
             <Font size="9.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="ФИО" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="21">
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="ФИО" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="20">
          <font>
             <Font name="System Bold" size="9.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Марка" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="23">
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Марка" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="22">
          <font>
             <Font name="System Bold" size="9.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Номер а/м" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="23">
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Номер а/м" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="22">
          <font>
             <Font name="System Bold" size="9.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Номер п/п" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="23">
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Номер п/п" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="22">
          <font>
             <Font name="System Bold" size="9.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Телефон" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="21">
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="90.0" text="Телефон" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="20">
          <font>
             <Font name="System Bold" size="9.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" prefHeight="13.0" prefWidth="90.0" text="ВУ" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="21">
+      <Label alignment="CENTER" prefHeight="13.0" prefWidth="90.0" text="ВУ" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="20">
          <font>
             <Font name="System Bold" size="9.0" />
          </font>
       </Label>
-      <TextField fx:id="fioFX" GridPane.columnIndex="2" GridPane.rowIndex="22">
+      <TextField fx:id="fioFX" GridPane.columnIndex="2" GridPane.rowIndex="21">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
-      <TextField fx:id="markFX" GridPane.columnIndex="2" GridPane.rowIndex="24">
+      <TextField fx:id="markFX" GridPane.columnIndex="2" GridPane.rowIndex="23">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
-      <TextField fx:id="numberAutoFX" GridPane.columnIndex="3" GridPane.rowIndex="24">
+      <TextField fx:id="numberAutoFX" GridPane.columnIndex="3" GridPane.rowIndex="23">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
-      <TextField fx:id="numberVehFX" GridPane.columnIndex="4" GridPane.rowIndex="24">
+      <TextField fx:id="numberVehFX" GridPane.columnIndex="4" GridPane.rowIndex="23">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
-      <TextField fx:id="telNumberFX" GridPane.columnIndex="3" GridPane.rowIndex="22">
+      <TextField fx:id="telNumberFX" GridPane.columnIndex="3" GridPane.rowIndex="21">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
-      <TextField fx:id="driverDocNumberFX" GridPane.columnIndex="4" GridPane.rowIndex="22">
+      <TextField fx:id="driverDocNumberFX" GridPane.columnIndex="4" GridPane.rowIndex="21">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Driver" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="Внести вод-ля" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="26">
+      <Button fx:id="sendMsk" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#sendMsk" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="Отправить Мск" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="25">
          <font>
             <Font name="Arial Narrow Bold" size="10.0" />
          </font>
       </Button>
-      <CheckBox fx:id="checkMoscow" mnemonicParsing="false" prefHeight="17.0" prefWidth="87.0" text="Мытищи" textFill="#fcfcfc" GridPane.columnIndex="3" GridPane.rowIndex="14">
+      <CheckBox fx:id="checkMoscow" mnemonicParsing="false" prefHeight="17.0" prefWidth="87.0" text="Мытищи" textFill="#fcfcfc" GridPane.columnIndex="3" GridPane.rowIndex="13">
          <font>
             <Font size="11.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="checkRostov" mnemonicParsing="false" prefHeight="17.0" prefWidth="87.0" text="Ростов" textFill="#fcfcfc" GridPane.columnIndex="4" GridPane.rowIndex="14">
+      <CheckBox fx:id="checkRostov" mnemonicParsing="false" prefHeight="17.0" prefWidth="87.0" text="Ростов" textFill="#fcfcfc" GridPane.columnIndex="4" GridPane.rowIndex="13">
          <font>
             <Font size="11.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="checkThree" mnemonicParsing="false" prefHeight="17.0" prefWidth="32.0" text="3т" textFill="#fcfcfc" GridPane.columnIndex="2" GridPane.rowIndex="15">
+      <CheckBox fx:id="checkThree" mnemonicParsing="false" prefHeight="17.0" prefWidth="32.0" text="3т" textFill="#fcfcfc" GridPane.columnIndex="2" GridPane.rowIndex="14">
          <font>
             <Font size="11.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="checkFive" mnemonicParsing="false" prefHeight="17.0" prefWidth="85.0" text="5т" textFill="#fcfcfc" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="15">
+      <CheckBox fx:id="checkFive" mnemonicParsing="false" prefHeight="17.0" prefWidth="85.0" text="5т" textFill="#fcfcfc" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="14">
          <font>
             <Font size="11.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="checkTen" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="10т" textFill="#fcfcfc" GridPane.columnIndex="4" GridPane.rowIndex="15">
+      <CheckBox fx:id="checkTen" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="10т" textFill="#fcfcfc" GridPane.columnIndex="4" GridPane.rowIndex="14">
          <font>
             <Font size="11.0" />
          </font>
       </CheckBox>
-      <Button fx:id="clearTextField" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="Очистить поля" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3" GridPane.rowIndex="10">
+      <Button fx:id="clearTextField" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="Очистить поля" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="6">
          <font>
             <Font name="Arial Narrow Bold" size="10.0" />
          </font>
       </Button>
-      <CheckBox fx:id="citytrans" mnemonicParsing="false" prefHeight="16.0" prefWidth="100.0" text="СитиТранс" textFill="#fcfcfc" GridPane.columnIndex="2" GridPane.rowIndex="14">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </CheckBox>
-      <TextField fx:id="torgValue" GridPane.columnIndex="2" GridPane.rowIndex="20">
+      <TextField fx:id="torgValue" GridPane.columnIndex="2" GridPane.rowIndex="19">
          <font>
             <Font size="10.0" />
          </font>
       </TextField>
-      <Button fx:id="addTorg" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addTorg" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="ТОРГ" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3" GridPane.rowIndex="20">
+      <Button fx:id="openTN" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openTN" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="Откр. ТН" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3" GridPane.rowIndex="19">
          <font>
             <Font name="Arial Narrow Bold" size="10.0" />
          </font>
       </Button>
-      <Button fx:id="getPackTark" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#getPackTark" prefHeight="14.0" prefWidth="90.0" style="-fx-background-color: #525252;" text="Pack.Tark" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="6">
-         <font>
-            <Font name="Arial Narrow Bold" size="10.0" />
-         </font>
-      </Button>
-      <DatePicker fx:id="dateLoad1" GridPane.columnIndex="2" GridPane.rowIndex="10" />
-      <Label alignment="CENTER" blendMode="ADD" prefHeight="13.0" prefWidth="150.0" text="Дата ПЭ" textAlignment="RIGHT" textFill="#f8f8f8" GridPane.columnIndex="2" GridPane.rowIndex="8">
-         <font>
-            <Font size="9.0" />
-         </font>
-      </Label>
-      <TextField fx:id="numberVehSTS" promptText="9940056376" GridPane.columnIndex="3" GridPane.rowIndex="26">
+      <DatePicker fx:id="dateLoad1" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+      <TextField fx:id="passport" promptText="Паспорт!" GridPane.columnIndex="2" GridPane.rowIndex="25">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
-      <TextField fx:id="numberAutoSTS" promptText="54XO545607" GridPane.columnIndex="2" GridPane.rowIndex="26">
-         <font>
-            <Font size="9.0" />
-         </font>
-      </TextField>
-      <Button fx:id="smssend" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#smssend" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="смс" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="10">
+      <Button fx:id="sendRnD" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#sendRnD" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="Отправить РнД" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3" GridPane.rowIndex="25">
          <font>
             <Font name="Arial Narrow Bold" size="10.0" />
          </font>
