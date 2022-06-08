@@ -149,6 +149,7 @@ public class Controller implements Initializable {
                 "ООО ОБИ Франчайзинговый центр, 141400, Российская Федерация, Московская область, Химки, Микрорайон ИКЕА, корпус 3, ИНН 7710439772",
                 "ООО Пол-Холл, ИНН 7203168442, 142714, Российская Федерация, Тюменская область, Тюмень, 50 лет Октября, 122",
                 "ООО Пол-Холл, 620137, Российская Федерация, Свердловская область, Екатеринбург, Кольцевая автодорога (ЕКАД) 5 км, 6/7",
+                "ООО Пол-Холл, 628422, Российская Федерация, Ханты-Мансийский автономный округ-Югра, Сургут, ул.Глухова, 2/1, ИНН 7203168442",
                 "ООО ПРО ВОСТОК ИНН 7725498851, 115162, Российская Федерация, Москва, Москва, ул. Шаболовка, 31, 23, Этаж 2, 2",
                 "ООО Роял Сервис, ИНН 7704819078, 141720, Российская Федерация, Московская область, Долгопрудный, мкр. Павельцево, Новое шоссе, 56",
                 "ООО Самотлор Тракт, 141014, Российская Федерация, Московская область, Мытищи, ул. Веры Волошиной, 19/16, 423, ИНН 5029080079",
@@ -556,7 +557,7 @@ public class Controller implements Initializable {
         //Объект properties хранит параметры соединения.
         Properties properties = new Properties();
         //Хост или IP-адрес почтового сервера
-        properties.put("mail.smtp.host", "smtp.yandex.ru");
+        properties.put("mail.smtp.host", "smtp.mail.ru");
         //Требуется ли аутентификация для отправки сообщения
         properties.put("mail.smtp.auth", "true");
         //Порт для установки соединения
@@ -570,14 +571,14 @@ public class Controller implements Initializable {
                 new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("citytransmsc@yandex.ru", "xwsqsbocshzmtgdc");
+                        return new PasswordAuthentication("raspiska@city-trans.com", "hdvGx5AYBrRRFolF0ftF");
                     }
                 });
 
         //Создаем новое почтовое сообщение
         Message message = new MimeMessage(session);
         //От кого
-        message.setFrom(new InternetAddress("citytransmsc@yandex.ru"));
+        message.setFrom(new InternetAddress("raspiska@city-trans.com"));
         //Кому
         message.setRecipient(Message.RecipientType.TO, new InternetAddress("rutransport.doc@tarkett.com"));
         //Тема письма
@@ -632,7 +633,7 @@ public class Controller implements Initializable {
         //Объект properties хранит параметры соединения.
         Properties properties = new Properties();
         //Хост или IP-адрес почтового сервера
-        properties.put("mail.smtp.host", "smtp.yandex.ru");
+        properties.put("mail.smtp.host", "smtp.mail.ru");
         //Требуется ли аутентификация для отправки сообщения
         properties.put("mail.smtp.auth", "true");
         //Порт для установки соединения
@@ -646,16 +647,19 @@ public class Controller implements Initializable {
                 new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("citytransmsc@yandex.ru", "xwsqsbocshzmtgdc");
+                        return new PasswordAuthentication("a.yamshanov@city-trans.com", "0JAe6EdEyUhE0WSLXuPG");
                     }
                 });
 
         //Создаем новое почтовое сообщение
         Message message = new MimeMessage(session);
         //От кого
-        message.setFrom(new InternetAddress("citytransmsc@yandex.ru"));
+        message.setFrom(new InternetAddress("a.yamshanov@city-trans.com"));
         //Кому
         message.setRecipient(Message.RecipientType.TO, new InternetAddress("Igor.Borisenko@tarkett.com"));
+        message.setRecipient(Message.RecipientType.CC, new InternetAddress("Maksim.Morgunov@tarkett.com"));
+        message.setRecipient(Message.RecipientType.BCC, new InternetAddress("borisencko.i2012@yandex.ru"));
+//        message.setRecipient(Message.RecipientType.TO, new InternetAddress("transport.ao@yandex.ru"));
         //Тема письма
         message.setSubject("Данные на " + numberTn.getText());
 
@@ -719,7 +723,7 @@ public class Controller implements Initializable {
         //Объект properties хранит параметры соединения.
         Properties properties = new Properties();
         //Хост или IP-адрес почтового сервера
-        properties.put("mail.smtp.host", "smtp.yandex.ru");
+        properties.put("mail.smtp.host", "smtp.mail.ru");
         //Требуется ли аутентификация для отправки сообщения
         properties.put("mail.smtp.auth", "true");
         //Порт для установки соединения
@@ -733,14 +737,14 @@ public class Controller implements Initializable {
                 new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("citytransmsc@yandex.ru", "xwsqsbocshzmtgdc");
+                        return new PasswordAuthentication("a.yamshanov@city-trans.com", "0JAe6EdEyUhE0WSLXuPG");
                     }
                 });
 
         //Создаем новое почтовое сообщение
         Message message = new MimeMessage(session);
         //От кого
-        message.setFrom(new InternetAddress("citytransmsc@yandex.ru"));
+        message.setFrom(new InternetAddress("a.yamshanov@city-trans.com"));
         //Кому
         message.setRecipient(Message.RecipientType.TO, new InternetAddress("Artur.Kurbanov@tarkett.com"));
         message.setRecipient(Message.RecipientType.CC, new InternetAddress("Natalia.Chetverkina@tarkett.com"));
