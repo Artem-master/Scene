@@ -2,23 +2,31 @@ package sample;
 
 import com.spire.xls.Workbook;
 import com.spire.xls.Worksheet;
+
+
+import jakarta.activation.DataHandler;
+import jakarta.activation.FileDataSource;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import org.apache.poi.ss.usermodel.*;
+import javafx.scene.control.TextField;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import javafx.scene.control.TextField;
+
+
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
@@ -26,11 +34,15 @@ public class Controller implements Initializable {
     @FXML
     private Button clearTextField;
     @FXML
+    private Button sendRnD;
+    @FXML
     private TextField numberTn;
     @FXML
     private DatePicker dateLoad;
     @FXML
     private DatePicker dateUnload;
+    @FXML
+    private DatePicker dateLoad1;
     @FXML
     private ComboBox<String> nameTransportCompany;
     @FXML
@@ -60,12 +72,12 @@ public class Controller implements Initializable {
     @FXML
     private CheckBox checkTen;
     @FXML
-    private CheckBox citytrans;
-    @FXML
     private TextField torgValue;
+    @FXML
+    private TextField passport;
 
-    String pathEndpoint = "C:\\Users\\go\\Desktop\\Tarkett\\";
-    String pathDownload = "C:\\Users\\go\\Downloads\\";
+    String pathEndpoint = "src\\jobFiles\\";
+    String pathDownload = "C:\\Users\\Artem\\Downloads\\";
 
     @Override
     public void initialize(URL location, ResourceBundle resources)  {
@@ -78,47 +90,75 @@ public class Controller implements Initializable {
             fioFX.clear();
             numberTn.clear();
             torgValue.clear();
+            passport.clear();
         });
 
         nameTransportCompany.getItems().addAll(
-                "ООО «УПРАВЛЕНИЕ НАПРАВЛЕНИЯМИ» ИНН/КПП 6320047707/632001001РФ, Самарская обл., г. Тольятти, 445056, ул. 40 лет Победы д.14, пом. 62,  офис 336 Т",
+                "ООО «СПЕЦПОДРЯД» ИНН/КПП 6321378684 /632101001 РФ, Самарская обл., г. Тольятти, 445047, ул. 40 лет Победы, 14,оф. 346 Т",
                 "ООО «ПЕГАС» ИНН/КПП 7716836046/771601001 129345 г. Москва, ул. Тайнинская, дом 26, пом.1, ком.3",
                 "ООО «ОЙЛТРАНС-АВТО» ИНН/КПП 1650367270/165001001 423808, РТ, г. Набережные Челны г, пр. им Мусы Джалиля, дом № 32, корпус 13, квартира 38",
+                "ООО Грузовое Объединение ИНН 6166117212, ОГРН 1196196053415 344095,  Ростовская обл., г. Ростов-На-Дону, ул. Штахановского, д. 29А офис 307",
                 "ООО «ВОЛГА АКТИВ»  ИНН/КПП 6330093533/633001001  443080, г. Самара, ул. Санфировой, 95 литер 4,  этаж 5, офис 509",
                 "ООО «Дельта Транс» ИНН/КПП 9709005654/770901001 105062, г.Москва, Подсосенский пер., д.13, помещение I, комната 2г",
                 "ООО «ТЭК Авто-Меридиан», ИНН 7726296079,108820, г. Москва, п. Мосрентген, п. завода Мосрентген, здание ГАУПВАХТА, этаж 2, офис 15",
                 "ООО «ГРУЗОВОЙ АТП», ИНН/КПП 7805716671/780501001 198188, ГОРОД САНКТ-ПЕТЕРБУРГ, УЛИЦА ВОЗРОЖДЕНИЯ, ДОМ 42, ЛИТЕРА А, ЧАСТЬ ПОМ. 14-Н №3, 5",
                 "ООО «ТС-Поволжье» ИНН/КПП 6318011809/631601001 443080, г. Самара, ул. Санфировой, 95 литер 4,  этаж 5, офис 509",
                 "ООО «ТЛТ ПЛАНЕТА» ИНН/КПП 6382081948/638201001 445143,Самарская обл.Ставропольский район,п.Подстёпки,ул.Садовая 10 А",
-                "ООО АВТОРЕЙС 161 ИНН/КПП 6167132260/616701001 344064 г. Ростов-на-Дону ул. Вавилова 62В, оф. 206"
+                "ООО АВТОРЕЙС 161 ИНН/КПП 6167132260/616701001 344064 г. Ростов-на-Дону ул. Вавилова 62В, оф. 206",
+                "ИП Тимаков Виктор Владимирович ИНН 616106551749 344068, г. Ростов-на-Дону, пер. Ольховский, д. 10",
+                "ИП Тимаков Артем Викторович ИНН 616113754764 344068, г. Ростов-на-Дону, пер. Ольховский, д. 10",
+                "ООО ФартАвто ИНН/КПП 6316276694/631601001 443090 Россия Самарская область г. Самара ул. Советской Армии д. влд.180 строение 1 офис 810",
+                "ООО Транслогика ИНН/КПП 5001141194/500101001 143914, Московская обл., г. о. Балашиха, г. Балашиха, мкр. Никольско-Архангельский, Вишняковское ш., д. 42, помещ. 31",
+                "ООО ТК АЛЬФА ТРАНС ИНН/КПП 7720791824/771801001 107497, г.Москва, ул.Монтажная, д.8 стр.4, помещения 10,11,12,13",
+                "ООО «Сити Транс» ИНН 7713389953 КПП 771301001 127411, г. Москва, Дмитровское шоссе, д. 157, стр. 9, оф. 9210"
         );
 
         nameUnloadCompany.getItems().addAll(
-                "АО Олимп и К, ИНН 7811138059",
-                "АО ТАРКЕТТ РУС Екатеринбургское Обособленное Подразделение, ИНН 7727115649",
-                "АО ТАРКЕТТ РУС Ростовское Обособленное Подразделение, ИНН 7727115649",
-                "АО ТАРКЕТТ РУС, ИНН 7727115649",
-                "АО ФМ Ложистик Восток, ИНН 5047027173",
-                "ООО «Леруа Мерлен Восток», ИНН 502906996",
-                "ООО «ОБИ Франчайзинговый центр», ИНН 7710439772",
-                "ООО «Сделай Своими Руками Северо-Запад», ИНН 7802354624",
-                "ООО Бауцентр Рус,  ИНН 7702596813",
-                "ООО БК Центр, ИНН 7728773908",
-                "ООО Касторама РУС, ИНН 7703528301",
-                "ООО МБК,  ИНН 2634079452",
-                "ООО Монарх К, ИНН 2311065300",
-                "ООО МБК-Поволжье Обособленное подразделение г. Казань,  ИНН 5263103894",
-                "ООО МБК-Поволжье, ИНН 5263103894",
-                "ООО МБК-Урал, ИНН 0276105593",
-                "ООО Монарх Бизнес Клуб Логистик, ИНН 9706007653",
-                "ООО Монарх Бизнес Клуб-Мск, ИНН 7713767919",
-                "ООО Монарх Сибирь, ИНН 5403336669",
-                "ООО Монарх-Воронеж, ИНН 3663097916",
-                "ООО Монарх-Саратов,  ИНН 6432004518",
-                "ООО Пол-Холл, ИНН 7203168442",
-                "ООО Роял Сервис, ИНН 7704819078",
-                "ООО Сделай Своими Руками, ИНН 5003042456",
-                "ООО СТД Петрович, ИНН 7802348846"
+                "АО Олимп и К, ИНН 7811138059, 193230, Российская Федерация, Санкт-Петербург, Санкт-Петербург,Челиева пер., 7, 2, Литер Б, 23",
+                "АО ТАРКЕТТ РУС Екатеринбургское Обособленное Подразделение, ИНН 7727115649, 624092, Российская Федерация, Свердловская область, Верхняя Пышма, п. Залесье, проезд Индустриальный, 1, 1",
+                "АО ТАРКЕТТ РУС Ростовское Обособленное Подразделение, ИНН 7727115649, 346720, Российская Федерация, Ростовская область, хутор Большой Лог, Новочеркасское шоссе, 111, 1",
+                "АО ТАРКЕТТ РУС Новосибирское Обособленное Подразделение, ИНН 7727115649, 633100, Российская Федерация, Новосибирская область, с. Толмачёво, о.п. 3307, 16",
+                "АО ТАРКЕТТ РУС, ИНН 7727115649, 115432, Российская Федерация, Москва, Москва, проспект Андропова, 18, 7",
+                "ООО АЛЛЕРТ, 614007, Российская Федерация, Пермский край, Пермь, ул. 1-я Красноармейская, 6, 1, ИНН 7451366642",
+                "ООО Альфа Строй, ИНН 6659222310",
+                "ООО «Леруа Мерлен Восток», ИНН 502906996, 141031, Российская Федерация, Московская область, Мытищи, Осташковское шоссе, 1",
+                "ООО Бауцентр Рус,  ИНН 7702596813, 236009, Российская Федерация, Калининградская область, Калининград, ул. Александра Невского, 205",
+                "ООО Бауцентр Рус,  ИНН 7702596813 353900, Российская Федерация, Краснодарский край,Новороссийск, село Гайдук, ул. Золотая рыбка, 23",
+                "ООО Бауцентр Рус, 350072, Российская Федерация, Краснодарский край, Краснодар, Ростовское шоссе, 28/7, ИНН 7702596813",
+                "ООО Бауцентр Рус, 350059, Российская Федерация, Краснодарский край, Краснодар, ул. Селезнева, 4,ИНН 7702596813",
+                "ООО БК Центр, ИНН 7728773908, 142703, Российская Федерация, Московская область, Видное, Белокаменное шоссе, 20, 38",
+                "ООО Касторама РУС, ИНН 7703528301, 115114, Российская Федерация, Москва, Москва, Дербеневская набережная, 7, 8",
+                "ООО Компания Колорлон, ИНН 5404289490, 630099, Российская Федерация, Новосибирская область, Новосибирск, улица Толмачевская, 19а",
+                "ООО МБК,  ИНН 2634079452, 355000, Российская Федерация, Ставропольский край, Ставрополь, улица М.Морозова, 55",
+                "ООО Монарх К, ИНН 2311065300, 353241, Российская Федерация, Краснодарский край, станица Северская, ул. Западная, 43А",
+                "ООО МБК Обособленное подразделение в г. Ростов-на-Дону, 346735, Российская Федерация, Ростовская область, хутор Нижнетемерницкий, ул. Гайдара, 5",
+                "ООО МБК-Поволжье Обособленное подразделение г. Казань,  ИНН 5263103894, 420099, Российская Федерация, Республика Татарстан, Казань, д. Макаровка, ул. Березовая, 10, 3, 51",
+                "ООО МБК-Поволжье, ИНН 5263103894, 603037, Российская Федерация, Нижегородская область, Нижний Новгород, ул. Федосеенко, 70, 10",
+                "ООО МБК-Урал, ИНН 0276105593, 450069, Российская Федерация, Республика Башкортостан, Уфа, ПРОЕЗД ВТОРОЙ (ИНДУСТРИАЛЬНЫЙ ПАРК МКР), ЗД 1",
+                "ООО МБК-УРАЛ Обособленное подразделение в г. Челябинск, 456504, Российская Федерация, Челябинская область, Челябинск, пос. Северный, Оптово-распределительный центр Грюнвальд территория, 3, ИНН 0276105593\n",
+                "ООО Монарх-П, 357560, Российская Федерация, Ставропольский край, Предгорный район, с. Этока, территория автодороги Пятигорск-Георгиевск, 1-й км, ИНН 2618801670\n",
+                "ООО Монарх-П обособленное подразделение в г. Астрахань, ИНН 2618801670, 414057, Российская Федерация, Астраханская область, Астрахань, улица Рождественского, 5",
+                "ООО Монарх-П обособленное подразделение в Волгограде, ИНН 2618801670, 400119, Российская Федерация, Волгоградская область, Волгоград, ул. 25-летия Октября, 1, 80",
+                "ООО Монарх-П Обособленное подразделение в г. Каспийск, 368303, Российская Федерация, Республика Дагестан, Каспийск, район Промбазы Дагестанберегозащита, ИНН 2618801670",
+                "ООО Монарх Бизнес Клуб Логистик, ИНН 9706007653, 119049, Российская Федерация, Москва, Москва, ул. Шаболовка, 23, 424",
+                "ООО Монарх Бизнес Клуб-Мск, ИНН 7713767919, 111033, Российская Федерация, Москва, Москва, ул.Золоторожский Вал, 11, 21",
+                "ООО Монарх Бизнес Клуб-Урал, ИНН 0276105593, 450069, Российская Федерация, Республика Башкортостан, Уфа, ПРОЕЗД ВТОРОЙ (ИНДУСТРИАЛЬНЫЙ ПАРК МКР), ЗД 1",
+                "ООО Монарх Сибирь, ИНН 5403336669, 630108, Российская Федерация, Новосибирская область Новосибирск, ул. Станционная, 30А, 15, Этаж 3",
+                "ООО Монарх-Воронеж, ИНН 3663097916, 394074, Российская Федерация, Воронежская область, Воронеж, ул. Новосибирская, 82А, 30",
+                "ООО Монарх-Саратов,  ИНН 6432004518, 410019, Российская Федерация, Саратовская область,Саратов, ул. Танкистов, 37, 2",
+                "ООО ОБИ Франчайзинговый центр, 141400, Российская Федерация, Московская область, Химки, Микрорайон ИКЕА, корпус 3, ИНН 7710439772",
+                "ООО Пол-Холл, ИНН 7203168442, 142714, Российская Федерация, Тюменская область, Тюмень, 50 лет Октября, 122",
+                "ООО Пол-Холл, 620137, Российская Федерация, Свердловская область, Екатеринбург, Кольцевая автодорога (ЕКАД) 5 км, 6/7",
+                "ООО Пол-Холл, 628422, Российская Федерация, Ханты-Мансийский автономный округ-Югра, Сургут, ул.Глухова, 2/1, ИНН 7203168442",
+                "ООО ПРО ВОСТОК ИНН 7725498851, 115162, Российская Федерация, Москва, Москва, ул. Шаболовка, 31, 23, Этаж 2, 2",
+                "ООО Роял Сервис, ИНН 7704819078, 141720, Российская Федерация, Московская область, Долгопрудный, мкр. Павельцево, Новое шоссе, 56",
+                "ООО Самотлор Тракт, 141014, Российская Федерация, Московская область, Мытищи, ул. Веры Волошиной, 19/16, 423, ИНН 5029080079",
+                "ООО Сделай Своими Руками, 108814, Российская Федерация, Московская область, с.п. Сосенское, КАЛУЖСКОЕ 21-Й КМ Ш., ВЛД. 3А, СТР. 8, ПОМЕЩ. А3, ИНН 5003042456",
+                "ООО Сделай Своими Руками Северо-Запад, 197229, Российская Федерация, СанктПетербург, Санкт-Петербург, п. Лахта, проспект Лахтинский, 85, ИНН 7802354624",
+                "ООО СТД Петрович, ИНН 7802348846, 192241, Российская Федерация, Санкт-Петербург, СанктПетербург, ул. Софийская, 59, 2,1, 44",
+                "ООО Русроял-ЮГ, 344090, Российская Федерация, Ростовская область, Ростов-наДону, ул. Доватора, 148, ИНН 6168108936",
+                "ИП РЫГАЛОВ С.В., 440000, Российская Федерация, Пензенская область, Пенза, ул.Володарского, 69, 24, ИНН 583600321567",
+                "ООО НОВАЦЕНТР К Обособленное подразделение №7 Логистический центр 295022, Российская Федерация, Автономная Республика Крым, Симферополь, проспект Победы, 245, ИНН 9102000091"
 
         );
 
@@ -127,6 +167,7 @@ public class Controller implements Initializable {
         nameCityUnload.getItems().addAll(
                 "Аксай, 346720, Ростовская область, Аксайский р-н, г. Аксай, 23",
                 "Астрахань, Астраханская область, Астрахань, Рождественского, д.5",
+                "Арамиль, Речной переулок. 4А",
                 "Белгород, Дубовское сельское поселение, п. Дубовое, мкр. Пригородный, ул. Щорса, 64Б",
                 "Боброво Ленинский городской округ, рабочий посёлок Боброво",
                 "Брянск, ул. Объездная уч.30 - магазин № 42 Брянск",
@@ -152,6 +193,7 @@ public class Controller implements Initializable {
                 "Домодедово, мкр. Белые Столбы, ул. Лермонтова, 3 РЦ «Южные Врата» ООО «Леруа Мерлен Восток»",
                 "Домодедово, Московская обл. г.Домодедово, м-н Вострековский, ул. Рябиновая дом 10",
                 "Екатеринбург, Свердловская область, Екатеринбург, Кольцевая автодорога (ЕКАД) 5 км, стр.6/7.",
+                "Екатеринбург, ул. Монтажников, 17/6",
                 "Екатеринбург, Свердловская область, Екатеринбург, улица Халтурина, д.53 (квартал улиц Опалихинская- Халтурина- Егорова- Толедова),ОБИ Карнавал-магазин № 1",
                 "Екатеринбург, Сверловская область, город Екатеринбург, Промышленный проезд, д.2Б",
                 "Екатеринбург, ул. Монтажников, 4",
@@ -168,6 +210,7 @@ public class Controller implements Initializable {
                 "Калининград, ул.А.Невского, 202",
                 "Калининград, ул.А.Невского, 205 (База строительных материалов)",
                 "Калуга, ул. Грабцевское шоссе, 95",
+                "Каспийск, Российская Федерация, Республика Дагестан, г. Каспийск, район Промбазы Дагестанберегозащита",
                 "Кинель, Самарская область, г.Кинель , ул Промышленная , д.13",
                 "Климовск, 142181, Московская обл., г. Климовск, Молодежная ул.,15",
                 "Клин, Клинский р-н, д. Борозда, 140, стр. 1",
@@ -206,18 +249,21 @@ public class Controller implements Initializable {
                 "Новомосковский административный округ, Киевское шоссе, 24-й километр, вл1с1 магазин Леруа Мерлен Киевское (051)",
                 "Москва, Дубнинская, д.83, корп./стр.6",
                 "Москва, Ленинградское шоссе, 25",
+                "Москва, Ленинградское шоссе, 69",
                 "Москва, Москва Сити, Пресненская набережная, 2",
                 "Москва, Новоухтомское шоссе, владение 2А",
                 "Москва, проезд Завода Серп и Молот, д. 5",
                 "Москва, проспект Мира, владение 211",
                 "Москва, Российская Федерация, 121087, г. Москва, Багратионовский проезд, д. 5-магазин № 31 Филион.",
                 "Москва, Рязанский проспект, 2с19",
+                "Москва, Рязанский проспект, 26с1",
                 "Москва, Сельскохозяйственная ул., д. 36",
                 "Москва, ул. Ленинская слобода, 26",
                 "Москва, ул. Святоозёрская, 1А",
                 "Москва, Ходынский бульвар д 4 магазин 037 ( Авиапарк)- магазин № 37 Авиапарк",
                 "Москва, Энтузиастов шоссе, д.12, корп.2.",
                 "Москва,143082, г.Москва, Новорижское шоссе 22 км,1,5",
+                "Московский, Киевское шоссе, 23-й километр, 8с1",
                 "Московский, 108811, г. Москва, п. Московский, 34 кв-л, двлд. 1,1",
                 "Московский, Москва, поселение Московский, г. Московский, вблизи д. Говорово, 47 км МКАД. (ОБИ Боровское)-магазин №6 Боровское",
                 "Моссква, МКАД, 24-й километр, вл2",
@@ -255,13 +301,14 @@ public class Controller implements Initializable {
                 "Отрадное, Московская область, Красногорский район, п/о Отрадное, 7-й км Пятницкого шоссе, вл. 2.- магазин № 35 Марьино",
                 "Отрадный, Промышленная зона, д. 1",
                 "Пермь, улица Героев Хасана, д.105, корп.16",
+                "Пенза, Перспективная улица, 3",
                 "Подольск, Домодедовское шоссе, 1В",
                 "Пушкино ул. Пушкинское поле, владение 10, корпус 3",
                 "Пушкино, 33-й км автодороги М8, Холмогоры, строение 18",
                 "Пушкино, микрорайон Новая деревня, Институтская улица, 27",
                 "Пушкино, Пушкинский р-н, г.Пушкино, Красноармейское ш., 103",
                 "Ржавки, Солнечногорский р-н, Ржавки рп, 2-мкр",
-                "Рорстов-на-Дону, Ростовская область, Новочеркасское шоссе, д.111, корп./стр.1, (трасса М4 – 1053 км)",
+                "Ростов-на-Дону, Ростовская область, Новочеркасское шоссе, д.111, корп./стр.1, (трасса М4 – 1053 км)",
                 "Ростов-на-Дону, 344055, Ростовская область, г. Ростов-на-Дону, ул. Пескова д.3",
                 "Ростов-на-Дону, 344090, г. Ростов-на-Дону, ул. Доватора, 158",
                 "Ростов-на-Дону, Новочеркасское шоссе 111, трасса М4 ДОН 1053 км, Логопарк-дон, Таркетт Рус",
@@ -299,9 +346,10 @@ public class Controller implements Initializable {
                 "совхоза им. Ленина, 1142715, Московская обл., Ленинский р-н, Совхоз имени Ленина с/п, совхоза им. Ленина п. МКАД 24-й километр,вл 2",
                 "Сосенское, Калужское шоссе 21 км, Торгово-развлекательный центр Мега, магазин Сделай Сам (ОБИ).",
                 "Софьино, Московская обл. Раменский г.о, с. Софьино, ш. Новорязанское, стр. 2",
-                "Ставрополь, Ставропольский край, Предгорный район, территория автодороги Пятигорск-Георгиевск, д.1-й км",
+                "Ставропольский край, Предгорный район, территория автодороги Пятигорск-Георгиевск, д.1-й км",
                 "Ставрополь, Шпаковский р-н, с. Татарка, Южный обход, 1 (для ТЦЛеруа Мерлен (Ставрополь))",
                 "Ставропольский край, с. Татарка, улица Ленина, д.1, корп./стр.2",
+                "Ставропольский край, Шпаковский муниципальный округ, село Татарка, улица Тельмана, 2/32",
                 "Старая Купавна, Московская обл. г.Старая Купавна, Бетонный проезд, дом 1",
                 "Сургут, Ханты-Мансийский автономный округ, Сургут, улица Глухова, 2/1",
                 "Тахтамукай, аул Тахтамукай, Морская улица, 4",
@@ -320,7 +368,7 @@ public class Controller implements Initializable {
                 "Челябинск, Челябинская область, Челябинск, Сосновский район, Оптово-распределительный центр Грюнвальд территория, д.3",
                 "Челябинск, Челябинская область, Челябинск, улица 2-я Потребительская, д.22",
                 "Череповец, Октябрьский пр-кт, 23",
-                "Шелепаново, РЦ Литвиново: Россия, Московская область, Солнечногорский район, с.п. Пешковское, деревня Шелепаново 152/1.-магазин № 815 Химки РЦ ФМ Ложистик",
+                "Российская Федерация, 141533, Московская область, Солнечногорск, сельское поселение Пешковское, д. Шелепаново, корп./стр.152/1",
                 "Шолохово д., Дмитровское ш.,8,1 (для ТЦ Леруа Мерлен  (Шолохово))",
                 "Шушары, Московское ш., 14, Лит. А. (для ТЦ Леруа Мерлен (СПБ Московское))",
                 "Щелково, Московская область, Щелковский район, г. Щелково, Пролетарский проспект, д. 20",
@@ -332,7 +380,6 @@ public class Controller implements Initializable {
                 "Ярославль, 150518, Ярославская обл., Ярославский р-н, в районе посёлка Красный Бор, 1А, корп.1 (для ТЦ «Леруа Мерлен Ярославль Бор»)",
                 "Ярославль, ООО Леруа Мерлен Восток 150521, Ярославская обл., Ярославский р-н, п.Нагорный, ул.Дорожная, д.6 В (для ТЦ Леруа Мерлен  (Вернисаж))"
         );
-
     }
 
     public String autoTonnValue () {
@@ -351,119 +398,6 @@ public class Controller implements Initializable {
         } else if (checkRostov.isSelected())
             return checkRostov.getText();
         return null;
-    }
-
-    public String addrLoadComp () {
-        if (citytrans.isSelected()) {
-            return "src\\files\\" + cityValue() + citytrans.getText() + ".xlsx";
-        }
-        return "src\\files\\" + cityValue() + ".xlsx";
-    }
-
-    public void showRasp () throws IOException {
-        Desktop desktop = Desktop.getDesktop();
-        desktop.open(new File("src\\files\\InpRasp.XLSX"));
-    }
-
-    public void createRasp () throws IOException {
-        String InpRasp = "src\\files\\InpRasp.XLSX";
-        String sourceFileName = cityValue() + "Rasp.XLSX";
-        String path = "src\\files\\";
-
-        XSSFWorkbook workbookSum = new XSSFWorkbook(InpRasp);
-        XSSFSheet sheetStr = workbookSum.getSheetAt(0);
-        Iterator<Row> rowIteratorStrSum = sheetStr.iterator();
-        int rowSumTab = rowIteratorStrSum.next().getSheet().getLastRowNum();
-
-        for (int i = 0; i <= rowSumTab; i++) {
-
-            FileInputStream fis = new FileInputStream(InpRasp);
-
-            XSSFWorkbook workbookFis = new XSSFWorkbook(fis);
-
-            XSSFSheet sheet = workbookFis.getSheetAt(0);
-            Row row = sheet.getRow(i);
-
-            String destFileName = i + cityValue() + ".XLSX";
-            File source = new File(path+sourceFileName);
-            File dest = new File(path+destFileName);
-            Files.copy(source.toPath(), dest.toPath());
-            XSSFWorkbook workbookDest = new XSSFWorkbook(new FileInputStream(path + destFileName));
-
-            Sheet writeSheet = workbookDest.getSheetAt(0);
-            Row rowWrite = writeSheet.getRow(6);
-            Date valueDate = row.getCell(2).getDateCellValue();
-            rowWrite.getCell(3).setCellValue(valueDate);
-
-
-            switch (row.getCell(0).getCellType()) {
-                case NUMERIC:
-                    double valueNumTH = row.getCell(0).getNumericCellValue();
-                    rowWrite.getCell(24).setCellValue(valueNumTH);
-                    break;
-                case STRING:
-                    String valueNumTHstr = row.getCell(0).getStringCellValue();
-                    rowWrite.getCell(24).setCellValue(valueNumTHstr);
-                    break;
-            }
-
-            Date valueDate2 = row.getCell(2).getDateCellValue();
-            rowWrite = writeSheet.getRow(17);
-            rowWrite.getCell(22).setCellValue(valueDate2);
-
-            switch (row.getCell(0).getCellType()) {
-                case NUMERIC:
-                    double valueNumTH2 = row.getCell(0).getNumericCellValue();
-                    rowWrite = writeSheet.getRow(17);
-                    rowWrite.getCell(18).setCellValue(valueNumTH2);
-                    break;
-                case STRING:
-                    String valueNumTH2str = row.getCell(0).getStringCellValue();
-                    rowWrite = writeSheet.getRow(17);
-                    rowWrite.getCell(18).setCellValue(valueNumTH2str);
-                    break;
-            }
-
-            String valueAutoTonn = row.getCell(13).getStringCellValue();
-            rowWrite = writeSheet.getRow(23);
-            rowWrite.getCell(9).setCellValue(valueAutoTonn);
-            if (valueAutoTonn.equals("20т")) {
-                rowWrite.getCell(16).setCellValue("82");
-            } else if (valueAutoTonn.equals("10т")) {
-                rowWrite.getCell(16).setCellValue("36");
-            } else {
-                rowWrite.getCell(16).setCellValue("29");
-            }
-
-            switch (row.getCell(17).getCellType()){
-                case STRING:
-                    String valueTableStr = row.getCell(17).getStringCellValue();
-                    rowWrite = writeSheet.getRow(20);
-                    rowWrite.getCell(1).setCellValue(valueTableStr);
-                    break;
-                case NUMERIC:
-                    double valueTableNum = row.getCell(17).getNumericCellValue();
-                    rowWrite = writeSheet.getRow(20);
-                    rowWrite.getCell(1).setCellValue(valueTableNum);
-                    break;
-            }
-
-            FileOutputStream fileWrite = new FileOutputStream(path + destFileName);
-            workbookDest.write(fileWrite);
-            fileWrite.close();
-            workbookDest.close();
-            workbookSum.close();
-            workbookFis.close();
-            fis.close();
-
-            com.spire.xls.Workbook wb = new Workbook();
-            wb.loadFromFile(path + destFileName);
-            Worksheet sheetPdf = wb.getWorksheets().get(0);
-            sheetPdf.saveToImage("C:\\Users\\go\\Desktop\\" + i + cityValue() + ".jpeg");
-
-            File xlsx = new File(path + destFileName);
-            xlsx.delete();
-        }
     }
 
     public void PrintDownload () throws IOException {
@@ -486,221 +420,361 @@ public class Controller implements Initializable {
         }
     }
 
-    public void createTH () throws IOException, InterruptedException {
+    public void createTH () throws IOException, InterruptedException, MessagingException {
 
-        File parentTH = new File(addrLoadComp());
+        File parentTH = new File("src\\files\\" + cityValue() + ".xlsx");
         File fileThNumber = new File(pathEndpoint+numberTn.getText()+".xlsx");
         Files.copy(parentTH.toPath(), fileThNumber.toPath());
 
         String rowValueTorg = torgValue.getText();
         String valueDateLoad = dateLoad.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         String valueDateUnload = dateUnload.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
+        String velueDateLoad1 = dateLoad1.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
         String nameTC = nameTransportCompany.getSelectionModel().getSelectedItem();
         String rowCityUnloadStr = nameCityUnload.getSelectionModel().getSelectedItem();
-        String rowAddrLCCStr = null;
         String nameUnloadCompanyStr = nameUnloadCompany.getSelectionModel().getSelectedItem();
 
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(2);
         XSSFWorkbook wb = new XSSFWorkbook (new FileInputStream(fileThNumber));
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        switch (nameUnloadCompanyStr) {
-            case "ООО Монарх К, ИНН 2311065300":
-                rowAddrLCCStr = "353241, Российская Федерация, Краснодарский край, станица Северская, ул. Западная, 43А";
-                break;
-            case "ООО Монарх Сибирь, ИНН 5403336669":
-                rowAddrLCCStr = "630108, Российская Федерация, Новосибирская область Новосибирск, ул. Станционная, 30А, 15, Этаж 3";
-                break;
-            case "ООО Монарх Бизнес Клуб Логистик, ИНН 9706007653":
-                rowAddrLCCStr = "119049, Российская Федерация, Москва, Москва, ул. Шаболовка, 23, 424";
-                break;
-            case "ООО Монарх Бизнес Клуб-Мск, ИНН 7713767919":
-                rowAddrLCCStr = "111033, Российская Федерация, Москва, Москва, ул.Золоторожский Вал, 11, 21";
-                break;
-            case "АО ТАРКЕТТ РУС Ростовское Обособленное Подразделение, ИНН 7727115649":
-                rowAddrLCCStr = "346720, Российская Федерация, Ростовская область, хутор Большой Лог, Новочеркасское шоссе, 111, 1";
-                break;
-            case "АО ТАРКЕТТ РУС Екатеринбургское Обособленное Подразделение, ИНН 7727115649":
-                rowAddrLCCStr = "624092, Российская Федерация, Свердловская область, Верхняя Пышма, п. Залесье, проезд Индустриальный, 1, 1";
-                break;
-            case "АО ФМ Ложистик Восток, ИНН 5047027173":
-                rowAddrLCCStr = "Россия, Московская область, городской округ Солнечногорск, деревня Шелепаново, 152/2";
-                break;
-            case "ООО МБК-Поволжье, ИНН 5263103894":
-                rowAddrLCCStr = "603037, Российская Федерация, Нижегородская область, Нижний Новгород, ул. Федосеенко, 70, 10,";
-                break;
-            case "ООО МБК-Поволжье Обособленное подразделение г. Казань,  ИНН 5263103894":
-                rowAddrLCCStr = "420099, Российская Федерация, Республика Татарстан, Казань, д. Макаровка, ул. Березовая, 10, 3, 51,";
-                break;
-            case "АО Олимп и К, ИНН 7811138059":
-                rowAddrLCCStr = " 193230, Российская Федерация, Санкт-Петербург, Санкт-Петербург,Челиева пер., 7, 2, Литер Б, 23";
-                break;
-            case "ООО Бауцентр Рус,  ИНН 7702596813":
-                rowAddrLCCStr = "236009, Российская Федерация, Калининградская область, Калининград, ул. Александра Невского, 205,";
-                break;
-            case "ООО Монарх-Воронеж, ИНН 3663097916":
-                rowAddrLCCStr = "394074, Российская Федерация, Воронежская область, Воронеж, ул. Новосибирская, 82А, 30, ";
-                break;
-            case "ООО Монарх-Саратов,  ИНН 6432004518":
-                rowAddrLCCStr = "410019, Российская Федерация, Саратовская область,Саратов, ул. Танкистов, 37, 2";
-                break;
-            case "ООО Роял Сервис, ИНН 7704819078":
-                rowAddrLCCStr = "141720, Российская Федерация, Московская область, Долгопрудный, мкр. Павельцево, Новое шоссе, 56";
-                break;
-            case "ООО МБК-Урал, ИНН 0276105593":
-                rowAddrLCCStr = "450069, Российская Федерация, Республика Башкортостан, Уфа, ПРОЕЗД ВТОРОЙ (ИНДУСТРИАЛЬНЫЙ ПАРК МКР), ЗД 1,";
-                break;
-            case "ООО БК Центр, ИНН 7728773908":
-                rowAddrLCCStr = "142703, Российская Федерация, Московская область, Видное, Белокаменное шоссе, 20, 38, ";
-                break;
-            case "ООО Пол-Холл, ИНН 7203168442":
-                rowAddrLCCStr = "142714, Российская Федерация, Тюменская область, Тюмень, 50 лет Октября, 122,";
-                break;
-            case "ООО «Леруа Мерлен Восток», ИНН 502906996":
-                rowAddrLCCStr = "141031, Российская Федерация, Московская область, Мытищи, Осташковское шоссе, 1";
-                break;
-            case "ООО «Сделай Своими Руками Северо-Запад», ИНН 7802354624":
-                rowAddrLCCStr = "197229, Российская Федерация, СанктПетербург, Санкт-Петербург, п. Лахта, проспект Лахтинский, 85";
-                break;
-            case "ООО Сделай Своими Руками, ИНН 5003042456":
-                rowAddrLCCStr = "108814, Российская Федерация, Московская область, с.п. Сосенское, КАЛУЖСКОЕ 21-Й КМ Ш., ВЛД. 3А, СТР. 8, ПОМЕЩ. А3";
-                break;
-            case "ООО «ОБИ Франчайзинговый центр», ИНН 7710439772":
-                rowAddrLCCStr = "141400, Российская Федерация, Московская область, Химки, Микрорайон ИКЕА, корпус 3";
-                break;
-            case "ООО МБК,  ИНН 2634079452":
-                rowAddrLCCStr = "355000, Российская Федерация, Ставропольский край, Ставрополь, улица М.Морозова, 55";
-                break;
-            case "ООО СТД Петрович, ИНН 7802348846":
-                rowAddrLCCStr = "192241, Российская Федерация, Санкт-Петербург, СанктПетербург, ул. Софийская, 59, 2,1, 44";
-                break;
-            case "ООО Касторама РУС, ИНН 7703528301":
-                rowAddrLCCStr = "115114, Российская Федерация, Москва, Москва, Дербеневская набережная, 7, 8";
-                break;
-            case "АО ТАРКЕТТ РУС, ИНН 7727115649":
-                rowAddrLCCStr = "115432, Российская Федерация, Москва, Москва, проспект Андропова, 18, 7,";
-                break;
-        }
-
 //        Номер ТН
-        Row numberTH = sheet.getRow(2); // Номер стр. в файле назн.
-        numberTH.getCell(36).setCellValue(numberTn.getText()); // Номер столбца в файл назн.
+        Row numberTH = sheet.getRow(1); // Номер стр. в файле назн.
+        numberTH.getCell(28).setCellValue(numberTn.getText()); // Номер столбца в файл назн.
+        numberTH.getCell(94).setCellValue(numberTn.getText()); // Номер столбца в файл назн.
 
-        Row fio = sheet.getRow(59); // Номер стр. в файле назн.
-        fio.getCell(1).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        fio.getCell(57).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        Row fio2 = sheet.getRow(86); // Номер стр. в файле назн.
-        fio2.getCell(1).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        Row fio3 = sheet.getRow(109); // Номер стр. в файле назн.
-        fio3.getCell(57).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+        Row fio = sheet.getRow(36); // Номер стр. в файле назн.
+        fio.getCell(57).setCellValue(fioFX.getText()+ " Тел:" + telNumberFX.getText()+ " ВУ:" + driverDocNumberFX.getText()); // Номер столбца в файл назн.
 
-        Row mark = sheet.getRow(89); // Номер стр. в файле назн.
-        mark.getCell(1).setCellValue(markFX.getText()); // Номер столбца в файл назн.
+        Row fio2 = sheet.getRow(62); // Номер стр. в файле назн.
+        fio2.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
 
-        Row numberAuto = sheet.getRow(89); // Номер стр. в файле назн.
-        numberAuto.getCell(57).setCellValue(numberAutoFX.getText()); // Номер столбца в файл назн.
+        Row fio3 = sheet.getRow(80); // Номер стр. в файле назн.
+        fio3.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+// Макрка и тоннаж
+        Row mark = sheet.getRow(39); // Номер стр. в файле назн.
+        mark.getCell(1).setCellValue(markFX.getText() + " " + autoTonnValue()); // Номер столбца в файл назн.
 
-        Row numberVeh = sheet.getRow(89); // Номер стр. в файле назн.
-        numberVeh.getCell(84).setCellValue(numberVehFX.getText()); // Номер столбца в файл назн.
-
-        Row telNumber = sheet.getRow(86); // Номер стр. в файле назн.
-        telNumber.getCell(79).setCellValue("Тел: " + telNumberFX.getText()); // Номер столбца в файл назн.
-
-        Row driverDocNumber = sheet.getRow(86); // Номер стр. в файле назн.
-        driverDocNumber.getCell(64).setCellValue("ВУ: " + driverDocNumberFX.getText()); // Номер столбца в файл назн.
-
-//        Тоннаж
-        Row tonnValue = sheet.getRow(36); // Номер стр. в файле назн.
-        tonnValue.getCell(1).setCellValue(autoTonnValue()); // Номер столбца в файл назн.
+// Номер машины и прицепа
+        Row numberAuto = sheet.getRow(39); // Номер стр. в файле назн.
+        numberAuto.getCell(57).setCellValue(numberAutoFX.getText() + " " + numberVehFX.getText()); // Номер столбца в файл назн.
 
     //        Дата загрузки
-        Row row = sheet.getRow(2); // Номер стр. в файле назн.
-        row.getCell(6).setCellValue(valueDateLoad); // Номер столбца в файл назн.
-        row.getCell(62).setCellValue(valueDateLoad); // Номер столбца в файл назн.
-        Row row1 = sheet.getRow(47); // Номер стр. в файле назн.
+        Row row = sheet.getRow(52); // Номер стр. в файле назн.
+        row.getCell(57).setCellValue(valueDateLoad); // Номер столбца в файл назн.
+        Row row1 = sheet.getRow(54); // Номер стр. в файле назн.
         row1.getCell(1).setCellValue(valueDateLoad); // Номер столбца в файл назн.
-        Row row2 = sheet.getRow(49); // Номер стр. в файле назн.
-        row2.getCell(1).setCellValue(valueDateLoad); // Номер столбца в файл назн.
-        row2.getCell(29).setCellValue(valueDateLoad); // Номер столбца в файл назн.
+        row1.getCell(57).setCellValue(valueDateLoad); // Номер столбца в файл назн.
+        Row row2 = sheet.getRow(1); // Номер стр. в файле назн.
+        row2.getCell(6).setCellValue(valueDateLoad); // Номер столбца в файл назн.
+
+//        Номера СТС
+//        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
+//        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
+
+//        Дата ПЭ
+        Row datePor = sheet.getRow(1); // Номер стр. в файле назн.
+        datePor.getCell(72).setCellValue(velueDateLoad1); // Номер столбца в файл назн.
 
 //        Дата разгрузки
-        Row rowUnload = sheet.getRow(47); // Номер стр. в файле назн.
+        Row rowUnload = sheet.getRow(72); // Номер стр. в файле назн.
         rowUnload.getCell(57).setCellValue(valueDateUnload); // Номер столбца в файл назн.
-
+        Row rowUnload1 = sheet.getRow(74); // Номер стр. в файле назн.
+        rowUnload1.getCell(1).setCellValue(valueDateUnload); // Номер столбца в файл назн.
+        rowUnload1.getCell(57).setCellValue(valueDateUnload); // Номер столбца в файл назн.
 
 //        Название перевозчика
-        Row rowNameTransportComp = sheet.getRow(83); // Номер стр. в файле назн.
+        Row rowNameTransportComp = sheet.getRow(36); // Номер стр. в файле назн.
         rowNameTransportComp.getCell(1).setCellValue(nameTC); // Номер столбца в файл назн.
 
 //        Название получателя
-        Row rowNameLoader = sheet.getRow(5); // Номер стр. в файле назн.
-        rowNameLoader.getCell(57).setCellValue(nameUnloadCompanyStr); // Номер столбца в файл назн.
-        Row rowNameLoader1 = sheet.getRow(43); // Номер стр. в файле назн.
-        rowNameLoader1.getCell(57).setCellValue(nameUnloadCompanyStr); // Номер столбца в файл назн.
-
-//        Юридический адрес получателя
-        Row rowAddrLCC = sheet.getRow(6); // Номер стр. в файле назн.
-        rowAddrLCC.getCell(57).setCellValue(rowAddrLCCStr); // Номер столбца в файл назн.
+        Row rowNameLoader = sheet.getRow(12); // Номер стр. в файле назн.
+        rowNameLoader.getCell(1).setCellValue(nameUnloadCompanyStr); // Номер столбца в файл назн.
 
 //        Адрес выгрузки
-        Row rowCityUnload = sheet.getRow(44); // Номер стр. в файле назн.
-        rowCityUnload.getCell(57).setCellValue(rowCityUnloadStr); // Номер столбца в файл назн.
+        Row rowCityUnload = sheet.getRow(14); // Номер стр. в файле назн.
+        rowCityUnload.getCell(1).setCellValue(rowCityUnloadStr); // Номер столбца в файл назн.
+        Row rowCityUnload1 = sheet.getRow(72); // Номер стр. в файле назн.
+        rowCityUnload1.getCell(0).setCellValue(rowCityUnloadStr); // Номер столбца в файл назн.
 
 //        Значение Торг
-        Row valueTorg = sheet.getRow(17); // Номер стр. в файле назн.
+        Row valueTorg = sheet.getRow(28); // Номер стр. в файле назн.
         valueTorg.getCell(1).setCellValue(rowValueTorg); // Номер столбца в файл назн.
-        Row valueTorg1 = sheet.getRow(33); // Номер стр. в файле назн.
-        valueTorg1.getCell(1).setCellValue(rowValueTorg); // Номер столбца в файл назн.
+
 
         wb.write(new FileOutputStream(fileThNumber));
         wb.close();
+
+        // СОЗДАНИЕ РАСПИСКИ //////////
+
+        String sourceFileName = cityValue() + "Rasp.XLSX";
+        String path = "src\\files\\";
+
+        String destFileName = numberTn.getText() + cityValue() + ".XLSX";
+        File source = new File(path+sourceFileName);
+        File dest = new File(path+destFileName);
+        Files.copy(source.toPath(), dest.toPath());
+        XSSFWorkbook workbookDest = new XSSFWorkbook(new FileInputStream(path + destFileName));
+
+        Sheet writeSheet = workbookDest.getSheetAt(0);
+        Row rowWrite = writeSheet.getRow(6);
+
+        rowWrite.getCell(24).setCellValue(numberTn.getText());
+        rowWrite.getCell(3).setCellValue(dateLoad.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu")));
+
+        rowWrite = writeSheet.getRow(17);
+        rowWrite.getCell(22).setCellValue(dateLoad.getValue().format(DateTimeFormatter.ofPattern("dd.MM.uuuu")));
+        rowWrite.getCell(18).setCellValue(numberTn.getText());
+
+        rowWrite = writeSheet.getRow(20);
+        rowWrite.getCell(1).setCellValue(torgValue.getText());
+
+        rowWrite = writeSheet.getRow(23);
+        rowWrite.getCell(9).setCellValue(autoTonnValue());
+
+        String valueCube;
+        if (autoTonnValue().equals("3т") || autoTonnValue().equals("5т")) {
+            valueCube = "29";
+        } else if (autoTonnValue().equals("10т")) {
+            valueCube = "36";
+        } else valueCube = "82";
+
+        rowWrite.getCell(16).setCellValue(valueCube);
+
+        FileOutputStream fileWrite = new FileOutputStream(path + destFileName);
+        workbookDest.write(fileWrite);
+        fileWrite.close();
+        workbookDest.close();
+
+        com.spire.xls.Workbook wbook = new Workbook();
+        wbook.loadFromFile(path + destFileName);
+        Worksheet sheetPdf = wbook.getWorksheets().get(0);
+        sheetPdf.saveToImage("src\\jobFiles\\" + numberTn.getText() + ".jpeg");
+
+        File xlsx = new File(path + destFileName);
+        xlsx.delete();
+
+        //Объект properties хранит параметры соединения.
+        Properties properties = new Properties();
+        //Хост или IP-адрес почтового сервера
+        properties.put("mail.smtp.host", "smtp.mail.ru");
+        //Требуется ли аутентификация для отправки сообщения
+        properties.put("mail.smtp.auth", "true");
+        //Порт для установки соединения
+        properties.put("mail.smtp.socketFactory.port", "465");
+        //Фабрика сокетов, так как при отправке сообщения Yandex требует SSL-соединения
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        //Создаем соединение для отправки почтового сообщения
+        Session session = Session.getDefaultInstance(properties,
+                //Аутентификатор - объект, который передает логин и пароль
+                new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("raspiska@city-trans.com", "hdvGx5AYBrRRFolF0ftF");
+                    }
+                });
+
+        //Создаем новое почтовое сообщение
+        Message message = new MimeMessage(session);
+        //От кого
+        message.setFrom(new InternetAddress("raspiska@city-trans.com"));
+        //Кому
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress("rutransport.doc@tarkett.com"));
+        //Тема письма
+        message.setSubject(numberTn.getText());
+        // Загрузка файла в письмо
+        File file = new File("src\\jobFiles\\" + numberTn.getText() + ".jpeg");
+        message.setFileName(file.getName());
+        message.setDataHandler(new DataHandler(new FileDataSource(file)));
+        Transport.send(message);
+
+        //Удаление файла
+        File fileDelete = new File("src\\jobFiles\\" + numberTn.getText() + ".jpeg");
+        fileDelete.delete();
+
     }
 
-    public void Driver () throws IOException {
+    public void openTN () throws IOException {
+        Desktop desktop = Desktop.getDesktop();
+        desktop.open(new File(pathEndpoint+numberTn.getText()+".xlsx"));
+    }
+
+    public void sendMsk () throws IOException, MessagingException {
         File fileThNumber = new File(pathEndpoint+numberTn.getText()+".xlsx");
         XSSFWorkbook wb  = new XSSFWorkbook (new FileInputStream(fileThNumber));
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        Row fio = sheet.getRow(59); // Номер стр. в файле назн.
-        fio.getCell(1).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        fio.getCell(57).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        Row fio2 = sheet.getRow(86); // Номер стр. в файле назн.
-        fio2.getCell(1).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
-        Row fio3 = sheet.getRow(109); // Номер стр. в файле назн.
-        fio3.getCell(57).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+        //        Номера СТС
+//        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
+//        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
 
-        Row mark = sheet.getRow(89); // Номер стр. в файле назн.
-        mark.getCell(1).setCellValue(markFX.getText()); // Номер столбца в файл назн.
+        // Макрка и тоннаж
+        Row mark = sheet.getRow(39); // Номер стр. в файле назн.
+        mark.getCell(1).setCellValue(markFX.getText() + " " + autoTonnValue()); // Номер столбца в файл назн.
 
-        Row numberAuto = sheet.getRow(89); // Номер стр. в файле назн.
-        numberAuto.getCell(57).setCellValue(numberAutoFX.getText()); // Номер столбца в файл назн.
+// Номер машины и прицепа
+        Row numberAuto = sheet.getRow(39); // Номер стр. в файле назн.
+        numberAuto.getCell(57).setCellValue(numberAutoFX.getText() + " " + numberVehFX.getText()); // Номер столбца в файл назн.
 
-        Row numberVeh = sheet.getRow(89); // Номер стр. в файле назн.
-        numberVeh.getCell(84).setCellValue(numberVehFX.getText()); // Номер столбца в файл назн.
+        ///ФИО Водителя
+        Row fio = sheet.getRow(36); // Номер стр. в файле назн.
+        fio.getCell(57).setCellValue(fioFX.getText()+ " Тел:" + telNumberFX.getText()+ " ВУ:" + driverDocNumberFX.getText()); // Номер столбца в файл назн.
 
-        Row telNumber = sheet.getRow(86); // Номер стр. в файле назн.
-        telNumber.getCell(79).setCellValue("Тел: " + telNumberFX.getText()); // Номер столбца в файл назн.
+        Row fio2 = sheet.getRow(62); // Номер стр. в файле назн.
+        fio2.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
 
-        Row driverDocNumber = sheet.getRow(86); // Номер стр. в файле назн.
-        driverDocNumber.getCell(64).setCellValue("ВУ: " + driverDocNumberFX.getText()); // Номер столбца в файл назн.
+        Row fio3 = sheet.getRow(80); // Номер стр. в файле назн.
+        fio3.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
 
         wb.write(new FileOutputStream(fileThNumber));
         wb.close();
+
+        //Объект properties хранит параметры соединения.
+        Properties properties = new Properties();
+        //Хост или IP-адрес почтового сервера
+        properties.put("mail.smtp.host", "smtp.mail.ru");
+        //Требуется ли аутентификация для отправки сообщения
+        properties.put("mail.smtp.auth", "true");
+        //Порт для установки соединения
+        properties.put("mail.smtp.socketFactory.port", "465");
+        //Фабрика сокетов, так как при отправке сообщения Yandex требует SSL-соединения
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        //Создаем соединение для отправки почтового сообщения
+        Session session = Session.getDefaultInstance(properties,
+                //Аутентификатор - объект, который передает логин и пароль
+                new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("a.yamshanov@city-trans.com", "0JAe6EdEyUhE0WSLXuPG");
+                    }
+                });
+
+        //Создаем новое почтовое сообщение
+        Message message = new MimeMessage(session);
+        //От кого
+        message.setFrom(new InternetAddress("a.yamshanov@city-trans.com"));
+        //Кому
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress("Igor.Borisenko@tarkett.com"));
+        message.setRecipient(Message.RecipientType.CC, new InternetAddress("Maksim.Morgunov@tarkett.com"));
+        message.setRecipient(Message.RecipientType.BCC, new InternetAddress("borisencko.i2012@yandex.ru"));
+//        message.setRecipient(Message.RecipientType.TO, new InternetAddress("transport.ao@yandex.ru"));
+        //Тема письма
+        message.setSubject("Данные на " + numberTn.getText());
+
+        File file = new File(pathEndpoint+numberTn.getText()+".xlsx");
+//Собираем содержимое письма из кусочков
+        MimeMultipart multipart = new MimeMultipart();
+
+//Текст письма
+        MimeBodyPart part1 = new MimeBodyPart();
+        part1.addHeader("Content-Type", "text/plain; charset=UTF-8");
+        part1.setDataHandler(new DataHandler("ФИО: " + fioFX.getText() + "\n" +
+                "Тел: " + telNumberFX.getText() + "\n" +
+                "ВУ: " + driverDocNumberFX.getText() + "\n" +
+                "Паспорт: " + passport.getText() + "\n" +
+                "Машина: " + markFX.getText() + " " + numberAutoFX.getText() + " " + numberVehFX.getText(), "text/plain; charset=\"utf-8\""));
+
+        multipart.addBodyPart(part1);
+
+//Вставить файл
+        MimeBodyPart part2 = new MimeBodyPart();
+        part2.setFileName(MimeUtility.encodeWord(file.getName()));
+        part2.setDataHandler(new DataHandler(new FileDataSource(file)));
+        multipart.addBodyPart(part2);
+
+//Сборка сообщения
+        message.setContent(multipart);
+
+        Transport.send(message);
     }
 
-    public void addTorg () throws IOException {
-        File fileThNumber = new File(pathEndpoint+numberTn.getText()+".xlsx");
-        XSSFWorkbook wb = new XSSFWorkbook (new FileInputStream(fileThNumber));
+    public void sendRnD () throws MessagingException, IOException {
+        File fileThNumber = new File(pathEndpoint + numberTn.getText() + ".xlsx");
+        XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(fileThNumber));
         XSSFSheet sheet = wb.getSheetAt(0);
-        String rowValueTorg = torgValue.getText();
 
-        //        Значение Торг
-        Row valueTorg = sheet.getRow(17); // Номер стр. в файле назн.
-        valueTorg.getCell(1).setCellValue(rowValueTorg); // Номер столбца в файл назн.
-        Row valueTorg1 = sheet.getRow(33); // Номер стр. в файле назн.
-        valueTorg1.getCell(1).setCellValue(rowValueTorg); // Номер столбца в файл назн.
+        //        Номера СТС
+//        Row ctcNumber = sheet.getRow(45); // Номер стр. в файле назн.
+//        ctcNumber.getCell(1).setCellValue("авто СТС:" + numberVehSTS.getText()); // Номер столбца в файл назн.
+
+        // Макрка и тоннаж
+        Row mark = sheet.getRow(39); // Номер стр. в файле назн.
+        mark.getCell(1).setCellValue(markFX.getText() + " " + autoTonnValue()); // Номер столбца в файл назн.
+
+// Номер машины и прицепа
+        Row numberAuto = sheet.getRow(39); // Номер стр. в файле назн.
+        numberAuto.getCell(57).setCellValue(numberAutoFX.getText() + " " + numberVehFX.getText()); // Номер столбца в файл назн.
+
+        ///ФИО Водителя
+        Row fio = sheet.getRow(36); // Номер стр. в файле назн.
+        fio.getCell(57).setCellValue(fioFX.getText() + " Тел:" + telNumberFX.getText() + " ВУ:" + driverDocNumberFX.getText()); // Номер столбца в файл назн.
+
+        Row fio2 = sheet.getRow(62); // Номер стр. в файле назн.
+        fio2.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+
+        Row fio3 = sheet.getRow(80); // Номер стр. в файле назн.
+        fio3.getCell(69).setCellValue(fioFX.getText()); // Номер столбца в файл назн.
+
         wb.write(new FileOutputStream(fileThNumber));
         wb.close();
 
+        //Объект properties хранит параметры соединения.
+        Properties properties = new Properties();
+        //Хост или IP-адрес почтового сервера
+        properties.put("mail.smtp.host", "smtp.mail.ru");
+        //Требуется ли аутентификация для отправки сообщения
+        properties.put("mail.smtp.auth", "true");
+        //Порт для установки соединения
+        properties.put("mail.smtp.socketFactory.port", "465");
+        //Фабрика сокетов, так как при отправке сообщения Yandex требует SSL-соединения
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        //Создаем соединение для отправки почтового сообщения
+        Session session = Session.getDefaultInstance(properties,
+                //Аутентификатор - объект, который передает логин и пароль
+                new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("a.yamshanov@city-trans.com", "0JAe6EdEyUhE0WSLXuPG");
+                    }
+                });
+
+        //Создаем новое почтовое сообщение
+        Message message = new MimeMessage(session);
+        //От кого
+        message.setFrom(new InternetAddress("a.yamshanov@city-trans.com"));
+        //Кому
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress("Artur.Kurbanov@tarkett.com"));
+        message.setRecipient(Message.RecipientType.CC, new InternetAddress("Natalia.Chetverkina@tarkett.com"));
+        //Тема письма
+        message.setSubject("Данные на " + numberTn.getText());
+
+        File file = new File(pathEndpoint + numberTn.getText() + ".xlsx");
+//Собираем содержимое письма из кусочков
+        MimeMultipart multipart = new MimeMultipart();
+
+//Текст письма
+        MimeBodyPart part1 = new MimeBodyPart();
+        part1.addHeader("Content-Type", "text/plain; charset=UTF-8");
+        part1.setDataHandler(new DataHandler("ФИО: " + fioFX.getText() + "\n" +
+                "Тел: " + telNumberFX.getText() + "\n" +
+                "ВУ: " + driverDocNumberFX.getText() + "\n" +
+                "Паспорт: " + passport.getText() + "\n" +
+                "Машина: " + markFX.getText() + " " + numberAutoFX.getText() + " " + numberVehFX.getText(), "text/plain; charset=\"utf-8\""));
+
+        multipart.addBodyPart(part1);
+
+//Вставить файл
+        MimeBodyPart part2 = new MimeBodyPart();
+        part2.setFileName(MimeUtility.encodeWord(file.getName()));
+        part2.setDataHandler(new DataHandler(new FileDataSource(file)));
+        multipart.addBodyPart(part2);
+
+//Сборка сообщения
+        message.setContent(multipart);
+
+        Transport.send(message);
     }
 }
