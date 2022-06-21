@@ -78,6 +78,9 @@ public class Controller implements Initializable {
 
     String pathEndpoint = "src\\jobFiles\\";
     String pathDownload = "C:\\Users\\Artem\\Downloads\\";
+    String mailLogin = "a.yamshanov@city-trans.com";
+    String mailPass = "JcY42eDCF81LFYhYsbD1";
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources)  {
@@ -549,11 +552,18 @@ public class Controller implements Initializable {
         com.spire.xls.Workbook wbook = new Workbook();
         wbook.loadFromFile(path + destFileName);
         Worksheet sheetPdf = wbook.getWorksheets().get(0);
-        sheetPdf.saveToImage("src\\jobFiles\\" + numberTn.getText() + ".jpeg");
+        sheetPdf.saveToImage(pathEndpoint + numberTn.getText() + ".jpeg");
 
         File xlsx = new File(path + destFileName);
         xlsx.delete();
+    }
 
+    public void openTN () throws IOException {
+        Desktop desktop = Desktop.getDesktop();
+        desktop.open(new File(pathEndpoint+numberTn.getText()+".xlsx"));
+    }
+
+    public void sendRasp () throws MessagingException {
         //Объект properties хранит параметры соединения.
         Properties properties = new Properties();
         //Хост или IP-адрес почтового сервера
@@ -571,7 +581,7 @@ public class Controller implements Initializable {
                 new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("raspiska@city-trans.com", "hdvGx5AYBrRRFolF0ftF");
+                        return new PasswordAuthentication("raspiska@city-trans.com", "UJVwLTw27AKcKXAbDAwn");
                     }
                 });
 
@@ -584,20 +594,10 @@ public class Controller implements Initializable {
         //Тема письма
         message.setSubject(numberTn.getText());
         // Загрузка файла в письмо
-        File file = new File("src\\jobFiles\\" + numberTn.getText() + ".jpeg");
+        File file = new File(pathEndpoint + numberTn.getText() + ".jpeg");
         message.setFileName(file.getName());
         message.setDataHandler(new DataHandler(new FileDataSource(file)));
         Transport.send(message);
-
-        //Удаление файла
-        File fileDelete = new File("src\\jobFiles\\" + numberTn.getText() + ".jpeg");
-        fileDelete.delete();
-
-    }
-
-    public void openTN () throws IOException {
-        Desktop desktop = Desktop.getDesktop();
-        desktop.open(new File(pathEndpoint+numberTn.getText()+".xlsx"));
     }
 
     public void sendMsk () throws IOException, MessagingException {
@@ -646,19 +646,19 @@ public class Controller implements Initializable {
                 //Аутентификатор - объект, который передает логин и пароль
                 new Authenticator() {
                     @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("a.yamshanov@city-trans.com", "0JAe6EdEyUhE0WSLXuPG");
+                    protected  PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(mailLogin, mailPass);
                     }
                 });
 
         //Создаем новое почтовое сообщение
         Message message = new MimeMessage(session);
         //От кого
-        message.setFrom(new InternetAddress("a.yamshanov@city-trans.com"));
+        message.setFrom(new InternetAddress(mailLogin));
         //Кому
         message.setRecipient(Message.RecipientType.TO, new InternetAddress("Igor.Borisenko@tarkett.com"));
-        message.setRecipient(Message.RecipientType.CC, new InternetAddress("Maksim.Morgunov@tarkett.com"));
-        message.setRecipient(Message.RecipientType.BCC, new InternetAddress("borisencko.i2012@yandex.ru"));
+//        message.setRecipient(Message.RecipientType.CC, new InternetAddress("Maksim.Morgunov@tarkett.com"));
+//        message.setRecipient(Message.RecipientType.CC, new InternetAddress("borisencko.i2012@yandex.ru"));
 //        message.setRecipient(Message.RecipientType.TO, new InternetAddress("transport.ao@yandex.ru"));
         //Тема письма
         message.setSubject("Данные на " + numberTn.getText());
@@ -737,14 +737,14 @@ public class Controller implements Initializable {
                 new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("a.yamshanov@city-trans.com", "0JAe6EdEyUhE0WSLXuPG");
+                        return new PasswordAuthentication(mailLogin, mailPass);
                     }
                 });
 
         //Создаем новое почтовое сообщение
         Message message = new MimeMessage(session);
         //От кого
-        message.setFrom(new InternetAddress("a.yamshanov@city-trans.com"));
+        message.setFrom(new InternetAddress(mailLogin));
         //Кому
         message.setRecipient(Message.RecipientType.TO, new InternetAddress("Artur.Kurbanov@tarkett.com"));
         message.setRecipient(Message.RecipientType.CC, new InternetAddress("Natalia.Chetverkina@tarkett.com"));

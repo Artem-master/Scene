@@ -232,6 +232,11 @@
             <Font name="Arial Narrow Bold" size="10.0" />
          </font>
       </Button>
+      <Button fx:id="sendRasp" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" style="-fx-background-color: #525252;" text="Отправить ЭР" textFill="WHITE" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="9">
+         <font>
+            <Font name="Arial Narrow Bold" size="10.0" />
+         </font>
+      </Button>
    </children>
    <cursor>
       <Cursor fx:constant="OPEN_HAND" />
