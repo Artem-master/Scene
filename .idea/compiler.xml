@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Scene" target="8" />
+      <module name="Scene" target="1.8" />
       <module name="Tarkett" target="8" />
     </bytecodeTargetLevel>
   </component>
